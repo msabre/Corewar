@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_zeros.c                                      :+:      :+:    :+:   */
+/*   init_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/04 20:40:02 by avenonat          #+#    #+#             */
-/*   Updated: 2020/03/05 17:17:51 by msabre           ###   ########.fr       */
+/*   Created: 2020/03/04 20:25:29 by avenonat          #+#    #+#             */
+/*   Updated: 2020/03/05 16:28:32 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/corewar.h"
+#include "../includes/corewar.h"
 
-void	check_zeros(int fd)
+t_player	*init_player()
 {
-	int 			text;
-	int32_t 		zero;
-	unsigned char	buffer[T_IND + 1];
-	size_t 			i;
+	t_player *ssl;
 
-	if ((text = read(fd, &buffer, T_IND)) == -1)
-		write_error();
-	if (text < T_IND)
-		write_error();
-	zero = 0x0;
-	while (i < T_IND)
-	{
-		zero <<= 8;
-		zero |= buffer[i];
-		i++;
-	}
-	if (zero != ZEROS)
-		write_error();
+	if (!(ssl = (t_player *)malloc(sizeof(t_player))))
+		exit (0);
+	ssl->num = 0;
+	ssl->name = NULL;
+	ssl->len_exec = 0;
+	ssl->comment = NULL;
+	ssl->exe_code = NULL;
+	ssl->code_size = 0;
+	return (ssl);
 }

@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   skip_box.c                                         :+:      :+:    :+:   */
+/*   find_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/05 16:05:16 by avenonat          #+#    #+#             */
-/*   Updated: 2020/03/05 17:11:49 by msabre           ###   ########.fr       */
+/*   Created: 2020/03/06 13:34:19 by andrejskobe       #+#    #+#             */
+/*   Updated: 2020/03/07 14:12:20 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/corewar.h"
+#include "../includes/corewar.h"
 
-t_player		*skip_box(t_player *player)
+t_player		*get_player(t_player *players, int num)
 {
-	t_player	*temp;
-
-	temp = player;
-	while (temp->next != NULL)
-		temp = temp->next;
-	return (temp);
+	while (players)
+	{
+		if (players->num == num)
+			break ;
+		players = players->next;
+	}
+	return (players);
 }

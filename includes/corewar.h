@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:11:30 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/05 17:17:49 by msabre           ###   ########.fr       */
+/*   Updated: 2020/03/07 14:32:32 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COREWAR_H
 # define COREWAR_H
-# define READ_SIZE 2768
 # define ZEROS 00000000
-# include "libft/headers/libft.h"
+# include "../libft/headers/libft.h"
 # include "op.h"
 
 typedef struct			s_op //  для op.c
@@ -50,7 +49,7 @@ typedef struct			s_card // каретка
 	int					last_live;
 	int					curr_pos;
 	int					cycles_to_op;
-	int					*regs;
+	char				**regs;
 	t_op				*op; // операция которую будет исполнять каретка
 	struct s_card		*next;
 	struct s_card		*prev;
@@ -58,7 +57,7 @@ typedef struct			s_card // каретка
 
 typedef struct			s_arena // для того чтобы было меньше if и память была зациклена 
 {
-	char				*arena;
+	char				*map;
 	int					ind;
 	char				(*next)(struct s_arena *); // получить следующий байт
 	char				(*get)(struct s_arena *, int); // получить один байт из n позиции
@@ -71,8 +70,9 @@ typedef struct			s_general // хранит все что нужно для иг�
 	t_player			*last_live; // о ком посл. раз сказали что он жив
 	t_player			*players; // список игроков
 	t_card				*cards; // список кареток
-	t_op				*operations;
+	t_op				*op;
 	t_arena				arena;
+	int					flag_n;
 	int					n_players;
 	int					stop_cycle;
 	int					ctd; // cycle to die
@@ -97,7 +97,7 @@ int						put_nums(t_general *all, int argc, char **argv);
 void					initial_arena(t_general *all);
 void					check(t_general *all);
 t_player				*init_player();
-void					valid_check(int fd, int argc, char **argv, t_player **player);
+void					valid_check(int fd, char *argv, t_general *all);
 void					check_magic(int fd);
 void					check_name(int fd, t_player *player);
 void					check_zeros(int fd);
@@ -106,5 +106,11 @@ void					champ_comment(int fd, t_player *player);
 void				    check_champ_code(int fd, t_player *player);
 t_player				*skip_box(t_player *player);
 void					write_error();
+void					create_op_tab(t_general *all);
+t_player				*get_player(t_player *players, int num);
+void					live(t_general *all, t_card *card, char *args);
+void					sti(t_general *all, t_card *card, char *args);
+int						get_arg_value(t_arena *arena, t_card *card, char arg, int t_dir_size);
+void					read_player(char **argv, t_general *all);
 
 #endif

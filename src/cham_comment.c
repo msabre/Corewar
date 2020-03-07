@@ -1,42 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_name.c                                       :+:      :+:    :+:   */
+/*   cham_comment.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/04 19:25:29 by avenonat          #+#    #+#             */
-/*   Updated: 2020/03/05 16:27:59 by msabre           ###   ########.fr       */
+/*   Created: 2020/03/04 22:44:21 by avenonat          #+#    #+#             */
+/*   Updated: 2020/03/05 17:54:31 by avenonat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/corewar.h"
+#include "../includes/corewar.h"
 
-void	check_name(int fd, t_player *player)
+void	champ_comment(int fd, t_player *player)
 {
 	int				text;
-	unsigned char	buffer[PROG_NAME_LENGTH + 1];
-	size_t 			i;
+	unsigned char	buffer[COMMENT_LENGTH + 1];
+	size_t			i;
 
-	if ((text = read(fd, &buffer, PROG_NAME_LENGTH)) == -1)
-		write_error();
-	if (text < PROG_NAME_LENGTH)
-		write_error();
+	if ((text = read(fd, &buffer, COMMENT_LENGTH)) == -1)
+		write_error("ERROR WITH THE READING A FILE");
+	if (text < COMMENT_LENGTH)
+		write_error("INVALID SIZE");
 	i = 0;
 	while (buffer[i] != '\0')
 		i++;
-	if (!(player->name = (char *)malloc(sizeof(char) * i)))
+	if (!(player->comment = (char *)malloc(sizeof(char) * i)))
 		exit(0);
 	i = 0;
 	while (buffer[i] != '\0')
 	{
-		if (i < PROG_NAME_LENGTH)
+		if (i < COMMENT_LENGTH)
 		{
-			player->name[i] <<= 8;
-			player->name[i] |= buffer[i];
+			player->comment[i] <<= 8;
+			player->comment[i] |= buffer[i];
 		}
 		else
-			write_error();
+			write_error("INVALID SIZE");
 		i++;
 	}
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/corewar.h"
+#include "../includes/corewar.h"
 
 static void			del_dies_cards(t_card **cards, int curr_cycle, int cycles_to_die)
 {

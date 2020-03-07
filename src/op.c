@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   op.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:10:23 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/05 13:10:50 by msabre           ###   ########.fr       */
+/*   Updated: 2020/03/07 14:12:37 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "includes/corewar.h"
+#include "../includes/corewar.h"
 
-t_op    op_tab[17] =
+t_op	op_tab[17] =
 {
 	{"live", 1, {T_DIR}, 1, 10, "alive", 0, 0, 4},
 	{"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 1, 4},
@@ -38,3 +38,8 @@ t_op    op_tab[17] =
 	{"aff", 1, {T_REG}, 16, 2, "aff", 1, 0, 4},
 	{0, 0, {0}, 0, 0, 0, 0, 0, 0}
 };
+
+void			create_op_tab(t_general *all)
+{
+	all->op = op_tab;
+}

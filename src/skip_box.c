@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   write_error.c                                      :+:      :+:    :+:   */
+/*   skip_box.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/04 18:41:34 by avenonat          #+#    #+#             */
-/*   Updated: 2020/03/05 16:29:08 by msabre           ###   ########.fr       */
+/*   Created: 2020/03/05 16:05:16 by avenonat          #+#    #+#             */
+/*   Updated: 2020/03/05 17:11:49 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/corewar.h"
+#include "../includes/corewar.h"
 
-void	write_error()
+t_player		*skip_box(t_player *player)
 {
-	write(1, "Error\n", 6);
-	exit(0);
+	t_player	*temp;
+
+	temp = player;
+	while (temp->next != NULL)
+		temp = temp->next;
+	return (temp);
 }
