@@ -6,13 +6,13 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 10:19:24 by msabre            #+#    #+#             */
-/*   Updated: 2020/03/07 14:16:09 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/08 14:44:39 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/corewar.h"
 
-static void			add_card(t_card **cards,int num, int pos)
+void				add_card(t_card **cards,int num, int pos)
 {
 	t_card			*new;
 	int				i;
@@ -32,8 +32,8 @@ static void			add_card(t_card **cards,int num, int pos)
 	new->num = num;
 	if (REG_NUMBER > 0)
 	{
-		new->regs[0][0] = '-';
-		new->regs[0][1] = num + '0'; // Возможно нужно + '0'
+		(new)->regs[0][0] = '-';
+		(new)->regs[0][1] = num + '0'; // Возможно нужно + '0'
 	}
 	new->next = *cards;
 	if (*cards)
@@ -49,7 +49,7 @@ static void				put_execode(t_player *players, t_arena *arena, t_card **cards)
 	i = 1;
 	while (players)
 	{
-		mem_start = (4095 / i) + 1;
+		mem_start = (4096 / i);
 		set_mem(arena, players->exe_code, mem_start, players->len_exec);
 		add_card(cards, i, mem_start);
 		players = players->next;
@@ -74,6 +74,7 @@ void				initial_arena(t_general *all)
 	t_player		*tmp;
 
 	tmp = all->players;
+	all->cards = NULL;
 	create_arena(&all->arena);
 	put_execode(all->players, &all->arena, &all->cards);
 	all->ctd = CYCLE_TO_DIE;

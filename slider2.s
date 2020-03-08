@@ -34,7 +34,7 @@
 		sti	r1,%:live,%111
 		sti	r1,%:live,%116
 		ld	%48,r14	
-		ld      %4,r4
+		ld		%4,r4
 		ld      %48,r6
 		ld	%48,r13
 		ld	%:leon_ecrit,r8

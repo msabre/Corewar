@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:11:30 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/07 14:32:32 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/08 15:00:12 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct			s_flags
 char					get(t_arena *arena, int num);
 char					next(t_arena *arena);
 void					set_byte(t_arena *arena, char byte, int num);
-void					set_mem(t_arena *arena, char *mem, int num, int size);
+int						set_mem(t_arena *arena, char *mem, int num, int size);
 int						put_nums(t_general *all, int argc, char **argv);
 void					initial_arena(t_general *all);
 void					check(t_general *all);
@@ -112,5 +112,6 @@ void					live(t_general *all, t_card *card, char *args);
 void					sti(t_general *all, t_card *card, char *args);
 int						get_arg_value(t_arena *arena, t_card *card, char arg, int t_dir_size);
 void					read_player(char **argv, t_general *all);
+int						put_to_reg(char *arena, char **reg, int adress);
 
 #endif

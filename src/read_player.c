@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 15:49:39 by avenonat          #+#    #+#             */
-/*   Updated: 2020/03/07 14:28:42 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/08 10:51:50 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static void			check_flag_dump(char *argv, t_general *all)
 
 void	read_player(char **argv, t_general *all) //проверка расширения файлы и оправка на валидацию
 {
+	int fd;
 	int i;
 	int j;
-	int fd;
 
 	i = 1;
 	while (argv[i])
@@ -49,10 +49,10 @@ void	read_player(char **argv, t_general *all) //проверка расшире�
 		while (argv[i][j] != '\0')
 			j++;
 		if (ft_strcmp("-dump", argv[i]) == 0)
-        {
-		    i++;
-            check_flag_dump(argv[i], all);
-        }
+		{
+			i++;
+			check_flag_dump(argv[i], all);
+		}
 		else if (ft_strcmp("-n", argv[i]) == 0)
 		{
 			i++;

@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 11:11:07 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/07 14:12:23 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/08 14:40:17 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,38 @@ int			get_arg_value(t_arena *arena, t_card *card, char arg, int t_dir_size) // a
 		size--;
 	}
 	return (arg_value);
+}
+
+/*
+Функция предназначена записывать байты с определенного адреса карты в регистр
+*/
+
+int			put_to_reg(char *arena, char **reg, int adress)
+{
+	int		value;
+	int		i;
+
+	i = 0;
+	value = 0;
+	while (i < 4)
+	{
+		(*reg)[i++] = arena[adress++];
+		value += arena[adress];
+	}
+	return (value);
+}
+
+/*
+Функция предназначена записывать байты на карту из регистра, по определенному адресу
+*/
+
+int			set_from_reg(char **arena, char *reg, int adress)
+{
+	int		value;
+
+	value = 0;
+	set_mem();
+	(*arena)[adress++] = reg[i];
+	value += reg[i++];
+	return (value);
 }

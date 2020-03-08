@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:25:26 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/07 14:32:39 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/08 12:09:51 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,11 @@ void				check_valid_op(t_general *all, t_card *card)
 	}
 }
 
-static t_op		*find_op(t_op *operations, int search, int high)
+static t_op			*find_op(t_op *operations, int search, int high)
 {
-	int			low;
-	int			res;
-	int			mid;
+	int				low;
+	int				res;
+	int				mid;
 
 	low = 0;
 	while (low <= high)

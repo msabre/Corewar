@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 10:16:57 by msabre            #+#    #+#             */
-/*   Updated: 2020/03/07 14:11:54 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/08 14:44:26 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,16 @@ void				set_byte(t_arena *arena, char byte, int num)
 	arena->map[num] = byte;
 }
 
-void				set_mem(t_arena *arena, char *mem, int num, int size)
+int					set_mem(t_arena *arena, char *mem, int num, int size)
 {
+	int				set_value;
 	int				i;
 
 	i = 0;
+	set_value = 0;
 	while (mem && i < size)
-		set_byte(arena, mem[i++], num++);
+	{
+		set_byte(arena, mem[i], num++);
+		set_value += mem[i++];
+	}
 }
