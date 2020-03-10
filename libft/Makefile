@@ -6,7 +6,7 @@
 #    By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/14 18:00:46 by msabre            #+#    #+#              #
-#    Updated: 2020/03/04 14:36:01 by andrejskobe      ###   ########.fr        #
+#    Updated: 2020/03/10 13:15:10 by andrejskobe      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ LIBFT_C = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c ft_memchr
 ft_strnstr.c ft_strcmp.c ft_strncmp.c ft_atoi.c ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_toupper.c ft_tolower.c ft_memalloc.c ft_memdel.c ft_strnew.c ft_strdel.c ft_strclr.c ft_striter.c \
 ft_striteri.c ft_strmap.c ft_strmapi.c ft_strequ.c ft_strnequ.c ft_strsub.c ft_strjoin.c ft_strtrim.c ft_strsplit.c ft_itoa.c ft_putchar.c ft_putstr.c ft_putendl.c ft_putnbr.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c \
 ft_putnbr_fd.c mod_compair.c mod_minus.c mod_plus.c to_power.c size_int_mass.c integer_size.c ft_strndup.c ft_is_num.c free_doub_lvl_mass.c create_int_mass.c quick_sort.c ft_swap.c ft_chrfill.c cn_power.c ft_digitmass_cpy.c \
-word_len.c count_words.c count_row.c zero_doub_lvl_mass.c cpy_double_lvl_mass.c str_qsort.c ft_memswap.c is_num.c is_numvalue.c skip_word.c arraylist_func.c \
+word_len.c count_words.c count_row.c zero_doub_lvl_mass.c cpy_double_lvl_mass.c str_qsort.c ft_memswap.c is_num.c is_numvalue.c skip_word.c arraylist_func.c ft_memdup.c\
 
 DIR_O = temporary
 

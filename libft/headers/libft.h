@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 21:05:20 by msabre            #+#    #+#             */
-/*   Updated: 2020/03/05 13:15:52 by msabre           ###   ########.fr       */
+/*   Updated: 2020/03/10 13:15:32 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,5 +131,6 @@ void					lzero(t_arraylist *arraylist);
 int						getmem(t_arraylist *arraylist);
 void					del_arr(t_arraylist *arraylist);
 int						add_to_tab_double_lvl(t_arraylist *arraylist, void *value);
+void					*ft_memdup(void *mem, int count);
 
 #endif

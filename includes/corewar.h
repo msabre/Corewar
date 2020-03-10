@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:11:30 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/08 15:00:12 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/10 12:37:52 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,12 @@ void					create_op_tab(t_general *all);
 t_player				*get_player(t_player *players, int num);
 void					live(t_general *all, t_card *card, char *args);
 void					sti(t_general *all, t_card *card, char *args);
-int						get_arg_value(t_arena *arena, t_card *card, char arg, int t_dir_size);
+int						get_arg_value(t_general *all, char *args, int num, int t_dir_size);
 void					read_player(char **argv, t_general *all);
 int						put_to_reg(char *arena, char **reg, int adress);
+void					bit_op_reg(t_general *all, t_card *card, char *args, char op);
+void					bit_op_dir(t_general *all, t_card *card, char *args, char op);
+void					bit_op_in(t_general *all, t_card *card, char *args, char op);
+int						count_skiplen(char *args, int desire_arg, int t_dir_size);
 
 #endif
