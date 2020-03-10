@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cham_comment.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 22:44:21 by avenonat          #+#    #+#             */
-/*   Updated: 2020/03/05 17:54:31 by avenonat         ###   ########.fr       */
+/*   Updated: 2020/03/10 14:39:02 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	champ_comment(int fd, t_player *player)
 	{
 		if (i < COMMENT_LENGTH)
 		{
-			player->comment[i] <<= 8;
+			player->comment[i] = 0;
 			player->comment[i] |= buffer[i];
 		}
 		else

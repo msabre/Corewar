@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:01:43 by avenonat          #+#    #+#             */
-/*   Updated: 2020/03/07 14:30:43 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/10 14:39:17 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void    check_champ_code(int fd, t_player *player)
     i = 0;
     while(i < player->len_exec)
     {
-		player->exe_code[i] <<= 8;
+		player->exe_code[i] = 0; // <<= 8
 		player->exe_code[i] |= buffer[i];
         i++;
     }

@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 12:23:30 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/09 14:40:47 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/10 14:20:22 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void		bit_op_in(t_general *all, t_card *card, char *args, char op) // 23 стр�
 			adress += IND_SIZE;
 		else
 			adress += get_arg_value(all, args, 1, 4);
-		arg_2 = all->arena.map[adress];
+		arg_2 = &all->arena.map[adress];
 		put_opres(card->regs[args[2]], arg_1, arg_2, op);
 		card->curr_pos += (args[1] == DIR_SIZE) ? DIR_SIZE : 2 * IND_SIZE;
 	}

@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:25:26 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/08 12:09:51 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/10 15:13:54 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void				battle(t_general *all)
 			}
 			return ;
 		}
-		check_cards(all, all->op, all->cards, all->arena.map);
+		check_cards(all, all->ops_char, all->cards, all->arena.map);
 		if (all->cycles % all->ctd == 0) // Прошел 1 cycle_to_die
 			check(all);
 		all->cycles += 1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_name.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 19:25:29 by avenonat          #+#    #+#             */
-/*   Updated: 2020/03/05 16:27:59 by msabre           ###   ########.fr       */
+/*   Updated: 2020/03/10 14:39:35 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	check_name(int fd, t_player *player)
 	{
 		if (i < PROG_NAME_LENGTH)
 		{
-			player->name[i] <<= 8;
+			player->name[i] = 0; // <<= 8
 			player->name[i] |= buffer[i];
 		}
 		else

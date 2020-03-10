@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 13:22:59 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/10 13:44:51 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/10 15:15:16 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void			live(t_general *all, t_card *card, char *args)
 		all->last_live = get_player(all->players, arg);
 }
 
-void			ld(t_general *all, t_card *card, char *args)
+void			load(t_general *all, t_card *card, char *args)
 {
 	int			check_val;
 	int			n_reg;
@@ -42,11 +42,13 @@ void			ld(t_general *all, t_card *card, char *args)
 	{
 		adress = get_arg_value(all, args, i++, 4);
 		adress %= IDX_MOD;
-		check_val = put_to_reg(all->arena.map, &card->regs[n_reg], adress); // ситывает с адреса
+		check_val = put_to_reg(all->arena.map,
+			&card->regs[n_reg], adress); // ситывает с адреса
 		card->carry = (!check_val) ? 1 : 0;
 		return ;
 	}
-	check_val = put_to_reg(all->arena.map, &card->regs[n_reg], card->curr_pos); // считывает напрямую
+	check_val = put_to_reg(all->arena.map,
+		&card->regs[n_reg], card->curr_pos); // считывает напрямую
 	card->curr_pos += 4;
 	card->carry = (!check_val) ? 1 : 0;
 }
@@ -160,7 +162,7 @@ void			ldi(t_general *all, t_card *card, char *args)
 	adress = get_arg_value(all, args, 0, 2);
 	adress += get_arg_value(all, args, 1, 2);
 	adress %= IDX_MOD;
-	put_to_reg(&all->arena, &card->regs[r], adress);
+	put_to_reg(all->arena.map, &card->regs[r], adress);
 	card->curr_pos += count_skiplen(args, 3, 2);
 }
 
@@ -182,7 +184,7 @@ void			sti(t_general *all, t_card *card, char *args)
 	card->curr_pos += count_skiplen(args, 3, 2);
 }
 
-void			fork(t_general *all, t_card *card, char *args)
+void			fork_m(t_general *all, t_card *card, char *args)
 {
 	t_card		*card_copy;
 	int			adress;
@@ -201,31 +203,12 @@ void			fork(t_general *all, t_card *card, char *args)
 	card_copy->carry = card->carry;
 	card_copy->last_live = card->last_live;
 	card->curr_pos = adress % IDX_MOD;
+	card_copy->next = all->cards;
+	all->cards = card_copy;
 	card->curr_pos += 2; // DIR_SIZE
 }
 
-void			ld(t_general *all, t_card *card, char *args)
-{
-	int			check_val;
-	int			n_reg;
-	int			adress;
-	int			i;
-
-	i = 0;
-	n_reg = args[1]; // номер регистра получен из первого параметра
-	if (*args == T_IND)
-	{
-		adress = get_arg_value(all, args, 0, 4);
-		check_val = put_to_reg(all->arena.map, &card->regs[n_reg], adress); // ситывает с адреса
-		card->carry = (!check_val) ? 1 : 0;
-		return ;
-	}
-	check_val = put_to_reg(all->arena.map, &card->regs[n_reg], card->curr_pos); // считывает напрямую
-	card->curr_pos += 4;
-	card->carry = (!check_val) ? 1 : 0;
-}
-
-void			ld(t_general *all, t_card *card, char *args)
+void			lld(t_general *all, t_card *card, char *args)
 {
 	int			check_val;
 	int			n_reg;
@@ -256,7 +239,7 @@ void			lldi(t_general *all, t_card *card, char *args)
 	adress += get_arg_value(all, args, 1, 2);
 	if (args[0] == T_IND || args[1] == T_IND)
 		adress %= IDX_MOD;
-	put_to_reg(&all->arena, &card->regs[r], adress);
+	put_to_reg(all->arena.map, &card->regs[r], adress);
 	card->curr_pos += count_skiplen(args, 3, 2);
 }
 
@@ -278,20 +261,42 @@ void			lfork(t_general *all, t_card *card, char *args)
 	}
 	card_copy->carry = card->carry;
 	card_copy->last_live = card->last_live;
+	card_copy->next = all->cards;
+	all->cards = card_copy;
 	card->curr_pos += 2; // DIR_SIZE
 }
 
 void			aff(t_general *all, t_card *card, char *args)
 {
-	int			value;
 	char		c;
 	int			r;
+	int			value;
 
 	r = all->arena.map[card->curr_pos];
 	value = get_arg_value(all, card->regs[r], 0, 2);
 	c = (char)(value % 256);
 	write(1, &(c), 1);
 	card->curr_pos += 1;
+}
+
+void			add_op_links(t_general *all)
+{
+	all->operations[0] = &live;
+	all->operations[1] = &load;
+	all->operations[2] = &st;
+	all->operations[3] = &add;
+	all->operations[4] = &sub;
+	all->operations[5] = &and;
+	all->operations[6] = &or;
+	all->operations[7] = &xor;
+	all->operations[8] = &zjmp;
+	all->operations[9] = &ldi;
+	all->operations[10] = &sti;
+	all->operations[11] = &fork_m;
+	all->operations[12] = &lld;
+	all->operations[13] = &lldi;
+	all->operations[14] = &lfork;
+	all->operations[15] = &aff;
 }
 
 // Обернуть передвижение картеки в функции: int cursor_next(int cursor) && int cursor_change(int cursor)

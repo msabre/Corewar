@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:11:30 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/10 12:37:52 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/10 15:14:00 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define ZEROS 00000000
 # include "../libft/headers/libft.h"
 # include "op.h"
+# include "operations.h"
 
 typedef struct			s_op //  для op.c
 {
@@ -62,15 +63,16 @@ typedef struct			s_arena // для того чтобы было меньше if 
 	char				(*next)(struct s_arena *); // получить следующий байт
 	char				(*get)(struct s_arena *, int); // получить один байт из n позиции
 	void				(*set_byte)(struct s_arena *, char, int); // поместить один байт
-	void				(*set_mem)(struct s_arena *, char *, int, int); // поместить память размера n
+	int					(*set_mem)(struct s_arena *, char *, int, int); // поместить память размера n
 }						t_arena;
 
 typedef struct			s_general // хранит все что нужно для игры
 {
+	void				(*operations[16])(struct s_general, t_card *, char *); // ссылки на операции
 	t_player			*last_live; // о ком посл. раз сказали что он жив
 	t_player			*players; // список игроков
 	t_card				*cards; // список кареток
-	t_op				*op;
+	t_op				*ops_char;
 	t_arena				arena;
 	int					flag_n;
 	int					n_players;
@@ -80,14 +82,6 @@ typedef struct			s_general // хранит все что нужно для иг�
 	int					cn_ctd_live; // кол-во live за полседний ctd
 	int					change_cycle;
 }						t_general;
-
-typedef struct			s_flags
-{
-	int					n_value;
-	int					n_pos;
-	int					gump;
-	int					stop_cycle;
-}						t_flags;
 
 char					get(t_arena *arena, int num);
 char					next(t_arena *arena);
@@ -108,14 +102,32 @@ t_player				*skip_box(t_player *player);
 void					write_error();
 void					create_op_tab(t_general *all);
 t_player				*get_player(t_player *players, int num);
-void					live(t_general *all, t_card *card, char *args);
-void					sti(t_general *all, t_card *card, char *args);
 int						get_arg_value(t_general *all, char *args, int num, int t_dir_size);
 void					read_player(char **argv, t_general *all);
+int						cursor_to(int go_to);
+int						cursor_next(int current_position);
+void					live(t_general *all, t_card *card, char *args);
+void					load(t_general *all, t_card *card, char *args);
+void					st(t_general *all, t_card *card, char *args);
+void					add(t_general *all, t_card *card, char *args);
+void					sub(t_general *all, t_card *card, char *args);
+void					and(t_general *all, t_card *card, char *args);
+void					or(t_general *all, t_card *card, char *args);
+void					xor(t_general *all, t_card *card, char *args);
+void					zjmp(t_general *all, t_card *card, char *args);
+void					ldi(t_general *all, t_card *card, char *args);
+void					sti(t_general *all, t_card *card, char *args);
+void					fork_m(t_general *all, t_card *card, char *args);
+void					lld(t_general *all, t_card *card, char *args);
+void					lldi(t_general *all, t_card *card, char *args);
+void					lfork(t_general *all, t_card *card, char *args);
+void					aff(t_general *all, t_card *card, char *args);
 int						put_to_reg(char *arena, char **reg, int adress);
+int						count_skiplen(char *args, int desire_arg, int t_dir_size);
 void					bit_op_reg(t_general *all, t_card *card, char *args, char op);
 void					bit_op_dir(t_general *all, t_card *card, char *args, char op);
 void					bit_op_in(t_general *all, t_card *card, char *args, char op);
-int						count_skiplen(char *args, int desire_arg, int t_dir_size);
+void					add_op_links(t_general *all);
+
 
 #endif

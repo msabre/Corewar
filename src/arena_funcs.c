@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 10:16:57 by msabre            #+#    #+#             */
-/*   Updated: 2020/03/09 12:46:28 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/10 14:20:05 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,5 @@ int					set_mem(t_arena *arena, char *mem, int num, int size)
 		set_byte(arena, mem[i], num++);
 		set_value += mem[i++];
 	}
+	return (set_value);
 }
