@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:11:30 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/11 10:50:00 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/11 14:00:06 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct			s_player // чемпион P.S они лежат в arraylist �
 {
 	int					num;
 	char				*name;
-	char				*exe_code;
+	unsigned char		*exe_code;
 	int					code_size;
 	int					len_exec;
 	char				*comment;
@@ -50,7 +50,7 @@ typedef struct			s_card // каретка
 	int					last_live;
 	int					cursor;
 	int					cycles_to_op;
-	char				**regs;
+	unsigned char		**regs;
 	t_op				*op; // операция которую будет исполнять каретка
 	struct s_card		*next;
 	struct s_card		*prev;
@@ -58,12 +58,12 @@ typedef struct			s_card // каретка
 
 typedef struct			s_arena // для того чтобы было меньше if и память была зациклена 
 {
-	char				*map;
+	unsigned char		*map;
 	int					ind;
 	char				(*next)(struct s_arena *); // получить следующий байт
 	char				(*get)(struct s_arena *, int); // получить один байт из n позиции
-	void				(*set_byte)(struct s_arena *, char, int); // поместить один байт
-	int					(*set_mem)(struct s_arena *, char *, int, int); // поместить память размера n
+	void				(*set_byte)(struct s_arena *, unsigned char, int); // поместить один байт
+	int					(*set_mem)(struct s_arena *, unsigned char *, int, int); // поместить память размера n
 }						t_arena;
 
 typedef struct			s_general // хранит все что нужно для игры
@@ -85,8 +85,8 @@ typedef struct			s_general // хранит все что нужно для иг�
 
 char					get(t_arena *arena, int num);
 char					next(t_arena *arena);
-void					set_byte(t_arena *arena, char byte, int num);
-int						set_mem(t_arena *arena, char *mem, int num, int size);
+void					set_byte(t_arena *arena, unsigned char byte, int num);
+int						set_mem(t_arena *arena, unsigned char *mem, int num, int size);
 int						put_nums(t_general *all, int argc, char **argv);
 void					initial_arena(t_general *all);
 void					check(t_general *all);
@@ -123,7 +123,7 @@ void					lld(t_general *all, t_card *card, char *args);
 void					lldi(t_general *all, t_card *card, char *args);
 void					lfork(t_general *all, t_card *card, char *args);
 void					aff(t_general *all, t_card *card, char *args);
-int						put_to_reg(char *arena, char **reg, int adress);
+int						put_to_reg(unsigned char *arena, unsigned char **reg, int adress);
 int						count_skiplen(char *args, int desire_arg, int t_dir_size);
 void					bit_op_reg(t_general *all, t_card *card, char *args, char op);
 void					bit_op_dir(t_general *all, t_card *card, char *args, char op);

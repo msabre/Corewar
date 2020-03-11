@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 10:19:24 by msabre            #+#    #+#             */
-/*   Updated: 2020/03/10 14:20:27 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/11 14:26:47 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,21 @@ void				add_card(t_card **cards,int num, int pos)
 	new = (t_card *)ft_memalloc(sizeof(t_card));
 	if (!new)
 		exit(-1);
-	new->regs = (char **)malloc(sizeof(char*) * REG_NUMBER);
+	new->regs = (unsigned char **)malloc(sizeof(unsigned char*) * REG_NUMBER);
 	while (i < REG_NUMBER)
 	{
-		new->regs[i] = (char *)ft_memalloc(sizeof(char) * REG_SIZE);
+		new->regs[i] = (unsigned char *)ft_memalloc(sizeof(unsigned char) * REG_SIZE);
 		if (!new->regs[i])
 			exit(-1);
 		i++;
 	}
 	new->num = num;
-	if (REG_NUMBER > 0)
+	num *= (-1);
+	i = 0;
+	while (i < 4)
 	{
-		(new)->regs[0][0] = '-';
-		(new)->regs[0][1] = num + '0'; // Возможно нужно + '0'
+		new->regs[0][i++] = (unsigned char)(num & 255);
+		num = num >> 8;
 	}
 	new->next = *cards;
 	if (*cards)
@@ -59,7 +61,7 @@ static void				put_execode(t_player *players, t_arena *arena, t_card **cards)
 
 static void			create_arena(t_arena *arena)
 {
-	arena->map = (char *)ft_memalloc(sizeof(char) * (4096 + 1));
+	arena->map = (unsigned char *)ft_memalloc(sizeof(unsigned char) * (4096 + 1));
 	if (!arena->map)
 		exit(-1);
 	arena->get = get;
@@ -84,4 +86,5 @@ void				initial_arena(t_general *all)
 	while (tmp->next)
 		tmp = tmp->next;
 	all->last_live = tmp;
+	add_op_links(all);
 }

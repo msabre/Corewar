@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:25:26 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/11 10:42:18 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/11 15:10:38 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,6 @@ void				lst_free(t_player *lst)
 		lst = lst->next;
 		free(ptr);
 	}
-}
-
-static void			execute_op(t_general *all, t_card *card, char *args, int count)
-{
-	if (card->op->code_op == 1)
-		live(all, card,  args);
-	if (card->op->code_op == 11)
-		sti(all, card, args);
 }
 
 static int			skip_op_code(t_op *operation)
@@ -54,7 +46,7 @@ static int			skip_op_code(t_op *operation)
 
 static int			is_args_type(t_op *operation)
 {
-	if (operation->argc == 1 && operation->argv[0] == 2)
+	if (operation->argc == 1 && operation->argv[0] == T_DIR)
 		return (0);
 	return (1);
 }
@@ -71,6 +63,7 @@ static int			valid_arg(char my_arg, char valid_arg)
 
 void				check_valid_op(t_general *all, t_card *card)
 {
+	// void			(*op)(t_general *, t_card *, char *);
 	char			read_byte;
 	int				count_rb;
 	char			args[4];
@@ -102,7 +95,7 @@ void				check_valid_op(t_general *all, t_card *card)
 			}
 			card->cursor = cursor_next(card->cursor); // переключаемся на аргументы
 		}
-		execute_op(all, card, args, i);
+		all->operations[card->code_op - 1](all, card, args); // вызов операции
 	}
 }
 
@@ -126,7 +119,7 @@ static t_op			*find_op(t_op *operations, int search, int high)
 	return (NULL);
 }
 
-static void			check_cards(t_general *all, t_op *operations, t_card *cards, char *arena)
+static void			check_cards(t_general *all, t_op *operations, t_card *cards, unsigned char *arena)
 {
 	while (cards)
 	{

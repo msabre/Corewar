@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:01:43 by avenonat          #+#    #+#             */
-/*   Updated: 2020/03/10 14:39:17 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/11 14:02:00 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void    check_champ_code(int fd, t_player *player)
         write_error("ERROR WITH THE READING A FILE");
     if (text < player->len_exec)
         write_error("INVALID SIZE");
-    if(!(player->exe_code = (char *)malloc(sizeof(char *) * player->len_exec)))
+    if(!(player->exe_code = (unsigned char *)malloc(sizeof(unsigned char *) * player->len_exec)))
         exit(0);
     i = 0;
     while(i < player->len_exec)

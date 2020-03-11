@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 13:22:59 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/11 11:52:46 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/11 15:11:49 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void			load(t_general *all, t_card *card, char *args)
 	int			i;
 
 	i = 0;
-	r_adress = card->cursor + count_skiplen(args, 1, 2);
+	r_adress = card->cursor + count_skiplen(args, 1, 4);
 	r = (all->arena).map[r_adress] - 1; // номер регистра получен из первого параметра
 	if (*args == T_IND)
 	{
@@ -186,18 +186,18 @@ void			ldi(t_general *all, t_card *card, char *args)
 	card->cursor = cursor_to(cursor_update);
 }
 
-void			sti(t_general *all, t_card *card, char *args)
+void				sti(t_general *all, t_card *card, char *args)
 {
-	int			adress;
-	int			cursor_update;
-	char		*value;
-	int			r;
-	int			i;
+	int				adress;
+	int				cursor_update;
+	unsigned char	*value;
+	int				r;
+	int				i;
 
 	i = 1;
 	adress = 0;
 	r = all->arena.map[(card)->cursor] - 1; // номер регистра
-	value = card->regs[r - 1];
+	value = card->regs[r];
 	while (i < 3)
 		adress += get_arg_value(all, args, i++, 2); // Обрабатывает тип аргумента и возращает его числовое значение
 	adress %= IDX_MOD; // Это по кукбуку, пока не знаю почему...
@@ -217,6 +217,9 @@ void			fork_m(t_general *all, t_card *card, char *args)
 	card_copy = (t_card *)ft_memalloc(sizeof(t_card));
 	if (!card_copy)
 		exit(-1);
+	card_copy->regs = (unsigned char **)malloc(sizeof(unsigned char *));
+	if (!card_copy->regs)
+		exit(-1);
 	while (i < REG_NUMBER)
 	{
 		card_copy->regs[i] = ft_memdup(card->regs[i], REG_SIZE);
@@ -224,10 +227,10 @@ void			fork_m(t_general *all, t_card *card, char *args)
 	}
 	card_copy->carry = card->carry;
 	card_copy->last_live = card->last_live;
-	card->cursor = adress % IDX_MOD;
+	card_copy->cursor = cursor_to(adress) % IDX_MOD;
 	card_copy->next = all->cards;
 	all->cards = card_copy;
-	card->cursor = cursor_steps(card->cursor, 4); // DIR_SIZE
+	card->cursor = cursor_steps(card->cursor, 2); // DIR_SIZE
 }
 
 void			lld(t_general *all, t_card *card, char *args)
@@ -282,6 +285,9 @@ void			lfork(t_general *all, t_card *card, char *args)
 	card_copy = (t_card *)ft_memalloc(sizeof(t_card));
 	if (!card_copy)
 		exit(-1);
+	card_copy->regs = (unsigned char **)malloc(sizeof(unsigned char *));
+	if (!card_copy->regs)
+		exit(-1);
 	while (i < REG_NUMBER)
 	{
 		card_copy->regs[i] = ft_memdup(card->regs[i], REG_SIZE);
@@ -290,6 +296,7 @@ void			lfork(t_general *all, t_card *card, char *args)
 	card_copy->carry = card->carry;
 	card_copy->last_live = card->last_live;
 	card_copy->next = all->cards;
+	card_copy->cursor = cursor_to(adress);
 	all->cards = card_copy;
 	card->cursor = cursor_steps(card->cursor, 4); // DIR_SIZE
 }
@@ -326,5 +333,3 @@ void			add_op_links(t_general *all)
 	all->operations[14] = lfork;
 	all->operations[15] = aff;
 }
-
-// Обернуть передвижение картеки в функции: int cursor_next(int cursor) && int cursor_change(int cursor)

@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 12:23:30 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/11 11:52:41 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/11 14:05:14 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	make_bit_op(char a, char b, char op)
 		return (0);
 }
 
-static void	put_opres(char *dst, char *arg1, char *arg2, char op)
+static void	put_opres(unsigned char *dst, unsigned char *arg1, unsigned char *arg2, char op)
 {
 
 	int		i;
@@ -42,8 +42,8 @@ void		bit_op_reg(t_general *all, t_card *card, char *args, char op)  // 22 ст�
 	int		r;
 	int		adress;
 	int		steps_forward;
-	char	*arg_1;
-	char	*arg_2;
+	unsigned char	*arg_1;
+	unsigned char	*arg_2;
 
 	arg_1 = card->regs[r];
 	r = all->arena.map[(card)->cursor];
@@ -70,8 +70,8 @@ void		bit_op_dir(t_general *all, t_card *card, char *args, char op)  // 25 ст�
 {
 	int		steps_forward;
 	int		adress;
-	char	*arg_1;
-	char	*arg_2;
+	unsigned char	*arg_1;
+	unsigned char	*arg_2;
 	int		r;
 
 	adress = card->cursor + count_skiplen(args, 2, 4);
@@ -99,8 +99,8 @@ void		bit_op_dir(t_general *all, t_card *card, char *args, char op)  // 25 ст�
 
 void		bit_op_in(t_general *all, t_card *card, char *args, char op) // 23 строки
 {
-	char	*arg_1;
-	char	*arg_2;
+	unsigned char	*arg_1;
+	unsigned char	*arg_2;
 	int		adress;
 	int		steps_forward;
 	int		r;

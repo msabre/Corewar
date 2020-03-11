@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 11:11:07 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/11 11:11:33 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/11 14:01:34 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int			count_skiplen(char *args, int desire_arg, int t_dir_size)
 	len = 0;
 	while (++i < desire_arg)
 	{
-		if (args[i] == T_DIR)
-			len += REG_SIZE;
+		if (args[i] == T_REG)
+			len += 1;
 		else if (args[i] == T_IND)
 			len += IND_SIZE;
 		else if (args[i] == T_DIR)
@@ -39,13 +39,15 @@ int			count_skiplen(char *args, int desire_arg, int t_dir_size)
 Функция возращает числовое значение аргумента в зависимости от его типа. Каретка во время исполнения не двигается
 */
 
-int			get_arg_value(t_general *all, char *args, int num, int t_dir_size) // arg - тип аргумента (10 || 11 || 01)
+int					get_arg_value(t_general *all, char *args, int num, int t_dir_size) // arg - тип аргумента (10 || 11 || 01)
 {
-	char	*adress;
-	int		value;
-	int		pos;
-	int		i;
+	unsigned char	*adress;
+	int				value;
+	int				pos;
+	int				n_read;
+	int				i;
 
+	n_read = 4;
 	pos = all->cards->cursor + count_skiplen(args, num, t_dir_size);
 	if (args[num] == T_IND) // Получаем адрес
 	{
@@ -57,9 +59,14 @@ int			get_arg_value(t_general *all, char *args, int num, int t_dir_size) // arg 
 	}
 	else if (args[num] == T_REG) // Получаем номер регистра
 		adress = all->cards->regs[all->arena.map[pos] - 1];
+	else
+	{
+		adress = &all->arena.map[pos];
+		n_read = t_dir_size;
+	}
 	i = 0;
 	value = 0;
-	while (i < 4)
+	while (i < n_read)
 		value += adress[i++];
 	return (value);
 }
@@ -68,7 +75,7 @@ int			get_arg_value(t_general *all, char *args, int num, int t_dir_size) // arg 
 Функция предназначена записывать байты с определенного адреса карты в регистр
 */
 
-int			put_to_reg(char *arena, char **reg, int adress)
+int			put_to_reg(unsigned char *arena, unsigned char **reg, int adress)
 {
 	int		value;
 	int		i;

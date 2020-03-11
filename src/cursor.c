@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 14:05:12 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/11 10:49:47 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/11 11:59:10 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int		cursor_next(int current_position)
 {
 	if (current_position > 4095)
-		current_position %= 4095 + 1;
+		current_position %= 4095;
+	current_position += 1;
 	return (current_position);
 }
 

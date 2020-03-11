@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 10:21:10 by msabre            #+#    #+#             */
-/*   Updated: 2020/03/05 16:02:54 by msabre           ###   ########.fr       */
+/*   Updated: 2020/03/11 14:56:18 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,23 @@
 
 static void			del_dies_cards(t_card **cards, int curr_cycle, int cycles_to_die)
 {
+	t_card			*ptr_cards;
 	t_card			*tmp;
 
-	while (*cards)
+	ptr_cards = *cards;
+	while (ptr_cards)
 	{
 		if (curr_cycle - (*cards)->last_live < 1 || cycles_to_die <= 0)
 		{
 			tmp = *cards;
-			(*cards)->next = *cards;
+			(ptr_cards)->next = ptr_cards->next;
+			if (tmp == *cards)
+				*cards = (*cards)->next;
 			free(tmp->regs);
 			free(tmp);
 		}
 		else
-			*cards = (*cards)->next;
+			ptr_cards = ptr_cards->next;
 	}
 }
 
