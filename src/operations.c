@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 13:22:59 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/10 15:15:16 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/11 11:52:46 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void			live(t_general *all, t_card *card, char *args)
 	card->last_live = all->cycles;
 	while (t_dir_size > 0)
 	{
-		arg += all->arena.map[(card)->curr_pos++];
+		arg += all->arena.map[(card)->cursor];
+		card->cursor = cursor_next(card->cursor);
 		t_dir_size--;
 	}
 	if (arg == card->num)
@@ -32,24 +33,26 @@ void			live(t_general *all, t_card *card, char *args)
 void			load(t_general *all, t_card *card, char *args)
 {
 	int			check_val;
-	int			n_reg;
+	int			r_adress;
+	int			r;
 	int			adress;
 	int			i;
 
 	i = 0;
-	n_reg = args[1]; // номер регистра получен из первого параметра
+	r_adress = card->cursor + count_skiplen(args, 1, 2);
+	r = (all->arena).map[r_adress] - 1; // номер регистра получен из первого параметра
 	if (*args == T_IND)
 	{
 		adress = get_arg_value(all, args, i++, 4);
 		adress %= IDX_MOD;
 		check_val = put_to_reg(all->arena.map,
-			&card->regs[n_reg], adress); // ситывает с адреса
+			&card->regs[r], adress); // ситывает с адреса
 		card->carry = (!check_val) ? 1 : 0;
 		return ;
 	}
 	check_val = put_to_reg(all->arena.map,
-		&card->regs[n_reg], card->curr_pos); // считывает напрямую
-	card->curr_pos += 4;
+		&card->regs[r], card->cursor); // считывает напрямую
+	card->cursor = cursor_steps(card->cursor, 4);
 	card->carry = (!check_val) ? 1 : 0;
 }
 
@@ -57,20 +60,24 @@ void			st(t_general *all, t_card *card, char *args)
 {
 	int			check_val;
 	int			adress;
-	int			n_reg;
+	int			r;
 	int			i;
 
 	i = 0;
-	n_reg = *args;
+	r = (all->arena).map[card->cursor] - 1;
+	card->cursor = cursor_next(card->cursor);
 	check_val = 0;
 	if (args[1] == T_REG)
 	{
-		ft_memcpy((void*)card->regs[args[1]], (void*)card->regs[n_reg], 4);
+		adress = (all->arena).map[card->cursor] - 1;
+		card->cursor = cursor_next(card->cursor);
+		ft_memcpy((void*)card->regs[adress], (void*)card->regs[r], 4);
 		return ;
 	}
 	adress = get_arg_value(all, args, 1, 4);
 	adress %= IDX_MOD;
-	check_val = set_mem(&all->arena, card->regs[n_reg], adress, 4); // кладет значение регистра по адресу
+	check_val = set_mem(&all->arena, card->regs[r], adress, 4); // кладет значение регистра по адресу
+	card->cursor = cursor_steps(card->cursor, 2);
 	card->carry = (!check_val) ? 1 : 0;
 }
 
@@ -78,20 +85,23 @@ void			add(t_general *all, t_card *card, char *args)
 {
 	char		reg_value[4];
 	int			check_val;
-	int			dst_1;
-	int			dst_2;
+	int			r_1;
+	int			r_2;
 	int			src;
 	int			i;
 
 	i = 0;
 	check_val = 0;
-	dst_1 = all->arena.map[(card)->curr_pos++];
-	dst_2 = all->arena.map[(card)->curr_pos++];
-	src = all->arena.map[(card)->curr_pos++];
+	r_1 = all->arena.map[(card)->cursor] - 1;
+	card->cursor = cursor_next(card->cursor);
+	r_2 = all->arena.map[(card)->cursor] - 1;
+	card->cursor = cursor_next(card->cursor);
+	src = all->arena.map[(card)->cursor] - 1;
+	card->cursor = cursor_next(card->cursor);
 	while (i < 4)
 	{
-		card->regs[src][i] = card->regs[dst_1][i] + card->regs[dst_2][i]; // складываю занчения битов
-		check_val += card->regs[dst_1][i] + card->regs[dst_2][i];
+		card->regs[src][i] = card->regs[r_1][i] + card->regs[r_2][i]; // складываю занчения битов
+		check_val += card->regs[r_1][i] + card->regs[r_2][i];
 		i++;
 	}
 	card->carry = (!check_val) ? 1 : 0;
@@ -101,20 +111,23 @@ void			sub(t_general *all, t_card *card, char *args)
 {
 	char		reg_value[4];
 	int			check_val;
-	int			dst_1;
-	int			dst_2;
+	int			r_1;
+	int			r_2;
 	int			src;
 	int			i;
 
 	i = 0;
 	check_val = 0;
-	dst_1 = all->arena.map[(card)->curr_pos++];
-	dst_2 = all->arena.map[(card)->curr_pos++];
-	src = all->arena.map[(card)->curr_pos++];
+	r_1 = all->arena.map[(card)->cursor] - 1;
+	card->cursor = cursor_next(card->cursor);
+	r_2 = all->arena.map[(card)->cursor] - 1;
+	card->cursor = cursor_next(card->cursor);
+	src = all->arena.map[(card)->cursor] - 1;
+	card->cursor = cursor_next(card->cursor);
 	while (i < 4)
 	{
-		card->regs[src][i] = card->regs[dst_1][i] - card->regs[dst_2][i]; // складываю занчения битов
-		check_val += card->regs[dst_1][i] - card->regs[dst_2][i];
+		card->regs[src][i] = card->regs[r_1][i] - card->regs[r_2][i]; // складываю занчения битов
+		check_val += card->regs[r_1][i] - card->regs[r_2][i];
 		i++;
 	}
 	card->carry = (!check_val) ? 1 : 0;
@@ -147,41 +160,50 @@ void			xor(t_general *all, t_card *card, char *args)
 
 void			zjmp(t_general *all, t_card *card, char *args)
 {
+	int			cursor_update;
+
 	if (!card->carry)
 		return ;
-	card->curr_pos += get_arg_value(all, args, 0, 2);
-	card->curr_pos %= IDX_MOD;
+	cursor_update = card->cursor + get_arg_value(all, args, 0, 2);
+	cursor_update %= IDX_MOD;
+	card->cursor = cursor_to(cursor_update);
 }
 
 void			ldi(t_general *all, t_card *card, char *args)
 {
+	int			cursor_update;
+	int			r_adress;
 	int			adress;
 	int			r;
 
-	r = args[2];
+	r_adress = card->cursor + count_skiplen(args, 2, 2); // позиция регистра #3 аргумент
+	r = all->arena.map[r_adress] - 1; // считываем 1 байт - номер регистра
 	adress = get_arg_value(all, args, 0, 2);
 	adress += get_arg_value(all, args, 1, 2);
 	adress %= IDX_MOD;
 	put_to_reg(all->arena.map, &card->regs[r], adress);
-	card->curr_pos += count_skiplen(args, 3, 2);
+	cursor_update = card->cursor + count_skiplen(args, 3, 2); // новая позтиция курсора
+	card->cursor = cursor_to(cursor_update);
 }
 
 void			sti(t_general *all, t_card *card, char *args)
 {
 	int			adress;
+	int			cursor_update;
 	char		*value;
-	int			n_reg;
+	int			r;
 	int			i;
 
 	i = 1;
 	adress = 0;
-	n_reg = all->arena.map[(card)->curr_pos]; // номер регистра
-	value = card->regs[n_reg - 1];
+	r = all->arena.map[(card)->cursor] - 1; // номер регистра
+	value = card->regs[r - 1];
 	while (i < 3)
 		adress += get_arg_value(all, args, i++, 2); // Обрабатывает тип аргумента и возращает его числовое значение
 	adress %= IDX_MOD; // Это по кукбуку, пока не знаю почему...
-	all->arena.set_mem(&all->arena, value, adress, 4); // Записывает значение регистра по адресу
-	card->curr_pos += count_skiplen(args, 3, 2);
+	(all->arena).set_mem(&all->arena, value, adress, 4); // Записывает значение регистра по адресу
+	cursor_update = card->cursor + count_skiplen(args, 3, 2);
+	card->cursor = cursor_to(cursor_update);
 }
 
 void			fork_m(t_general *all, t_card *card, char *args)
@@ -202,45 +224,51 @@ void			fork_m(t_general *all, t_card *card, char *args)
 	}
 	card_copy->carry = card->carry;
 	card_copy->last_live = card->last_live;
-	card->curr_pos = adress % IDX_MOD;
+	card->cursor = adress % IDX_MOD;
 	card_copy->next = all->cards;
 	all->cards = card_copy;
-	card->curr_pos += 2; // DIR_SIZE
+	card->cursor = cursor_steps(card->cursor, 4); // DIR_SIZE
 }
 
 void			lld(t_general *all, t_card *card, char *args)
 {
+	int			r_adress;
 	int			check_val;
-	int			n_reg;
+	int			r;
 	int			adress;
 	int			i;
 
 	i = 0;
-	n_reg = args[1]; // номер регистра получен из первого параметра
+	r_adress = card->cursor + count_skiplen(args, 1, 2);
+	r = (all->arena).map[r_adress] - 1; // номер регистра получен из первого параметра
 	if (*args == T_IND)
 	{
 		adress = get_arg_value(all, args, 0, 4);
-		check_val = put_to_reg(all->arena.map, &card->regs[n_reg], adress); // ситывает с адреса
+		check_val = put_to_reg(all->arena.map, &card->regs[r], adress); // ситывает с адреса
 		card->carry = (!check_val) ? 1 : 0;
 		return ;
 	}
-	check_val = put_to_reg(all->arena.map, &card->regs[n_reg], card->curr_pos); // считывает напрямую
-	card->curr_pos += 4;
+	check_val = put_to_reg(all->arena.map, &card->regs[r], card->cursor); // считывает напрямую
+	card->cursor += 4;
 	card->carry = (!check_val) ? 1 : 0;
 }
 
 void			lldi(t_general *all, t_card *card, char *args)
 {
+	int			r_adress;
+	int			cursor_update;
 	int			adress;
 	int			r;
 
-	r = args[2];
+	r_adress = card->cursor + count_skiplen(args, 1, 2);
+	r = (all->arena).map[r_adress] - 1; // номер регистра получен из первого параметра
 	adress = get_arg_value(all, args, 0, 2);
 	adress += get_arg_value(all, args, 1, 2);
 	if (args[0] == T_IND || args[1] == T_IND)
 		adress %= IDX_MOD;
 	put_to_reg(all->arena.map, &card->regs[r], adress);
-	card->curr_pos += count_skiplen(args, 3, 2);
+	cursor_update = card->cursor + count_skiplen(args, 3, 2);
+	card->cursor = cursor_to(cursor_update);
 }
 
 void			lfork(t_general *all, t_card *card, char *args)
@@ -263,7 +291,7 @@ void			lfork(t_general *all, t_card *card, char *args)
 	card_copy->last_live = card->last_live;
 	card_copy->next = all->cards;
 	all->cards = card_copy;
-	card->curr_pos += 2; // DIR_SIZE
+	card->cursor = cursor_steps(card->cursor, 4); // DIR_SIZE
 }
 
 void			aff(t_general *all, t_card *card, char *args)
@@ -272,31 +300,31 @@ void			aff(t_general *all, t_card *card, char *args)
 	int			r;
 	int			value;
 
-	r = all->arena.map[card->curr_pos];
-	value = get_arg_value(all, card->regs[r], 0, 2);
+	r = all->arena.map[card->cursor] - 1;
+	value = get_arg_value(all, args, 0, 2);
 	c = (char)(value % 256);
 	write(1, &(c), 1);
-	card->curr_pos += 1;
+	card->cursor = cursor_next(card->cursor);
 }
 
 void			add_op_links(t_general *all)
 {
-	all->operations[0] = &live;
-	all->operations[1] = &load;
-	all->operations[2] = &st;
-	all->operations[3] = &add;
-	all->operations[4] = &sub;
-	all->operations[5] = &and;
-	all->operations[6] = &or;
-	all->operations[7] = &xor;
-	all->operations[8] = &zjmp;
-	all->operations[9] = &ldi;
-	all->operations[10] = &sti;
-	all->operations[11] = &fork_m;
-	all->operations[12] = &lld;
-	all->operations[13] = &lldi;
-	all->operations[14] = &lfork;
-	all->operations[15] = &aff;
+	all->operations[0] = live;
+	all->operations[1] = load;
+	all->operations[2] = st;
+	all->operations[3] = add;
+	all->operations[4] = sub;
+	all->operations[5] = and;
+	all->operations[6] = or;
+	all->operations[7] = xor;
+	all->operations[8] = zjmp;
+	all->operations[9] = ldi;
+	all->operations[10] = sti;
+	all->operations[11] = fork_m;
+	all->operations[12] = lld;
+	all->operations[13] = lldi;
+	all->operations[14] = lfork;
+	all->operations[15] = aff;
 }
 
 // Обернуть передвижение картеки в функции: int cursor_next(int cursor) && int cursor_change(int cursor)

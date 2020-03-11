@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 11:11:07 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/10 12:56:23 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/11 11:11:33 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int			get_arg_value(t_general *all, char *args, int num, int t_dir_size) // arg 
 	int		pos;
 	int		i;
 
-	pos = all->cards->curr_pos + count_skiplen(args, num, t_dir_size);
+	pos = all->cards->cursor + count_skiplen(args, num, t_dir_size);
 	if (args[num] == T_IND) // Получаем адрес
 	{
 		i = 2;

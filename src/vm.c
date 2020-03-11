@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:25:26 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/10 15:13:54 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/11 10:42:18 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void				check_valid_op(t_general *all, t_card *card)
 		return ;
 	if (card->code_op)
 	{
-		read_byte = all->arena.map[card->curr_pos]; // считываем байт;
+		read_byte = all->arena.map[card->cursor]; // считываем байт;
 		if (is_args_type(card->op))
 		{
 			div = 6;
@@ -95,12 +95,12 @@ void				check_valid_op(t_general *all, t_card *card)
 				args[i] &= 3;
 				if (!valid_arg(args[i++], card->op->argv[j++]))
 				{
-					card->curr_pos += skip_op_code(card->op) + 1; // +1 байт хранящий код типов аргументов
+					card->cursor = cursor_to(card->cursor + skip_op_code(card->op) + 1); // +1 байт хранящий код типов аргументов
 					return ;
 				}
 				div -= 2;
 			}
-			card->curr_pos += 1; // переключаемся на аргументы
+			card->cursor = cursor_next(card->cursor); // переключаемся на аргументы
 		}
 		execute_op(all, card, args, i);
 	}
@@ -133,7 +133,8 @@ static void			check_cards(t_general *all, t_op *operations, t_card *cards, char 
 		if (!cards->cycles_to_op)
 		{
 			check_valid_op(all, cards); // исполнить операцию
-			cards->code_op = arena[cards->curr_pos++]; // код операции
+			cards->code_op = arena[cards->cursor]; // код операции
+			cards->cursor = cursor_next(cards->cursor);
 			cards->op = find_op(operations, cards->code_op, 16); // Передает указатель на операцию в случае нахождения
 			if (cards->op)
 				cards->cycles_to_op = cards->op->cycles; // кол-во циклов до исполнения

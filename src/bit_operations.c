@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 12:23:30 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/10 14:20:22 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/11 11:52:41 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,52 +41,59 @@ void		bit_op_reg(t_general *all, t_card *card, char *args, char op)  // 22 ст�
 {
 	int		r;
 	int		adress;
+	int		steps_forward;
 	char	*arg_1;
 	char	*arg_2;
 
 	arg_1 = card->regs[r];
-	r = all->arena.map[(card)->curr_pos];
+	r = all->arena.map[(card)->cursor];
 	if (args[1] == T_REG)
 	{
-		adress = all->arena.map[(card)->curr_pos];
+		adress = all->arena.map[(card)->cursor];
 		arg_2 = card->regs[adress];
-		put_opres(card->regs[args[2]], arg_1, arg_2, op);
+		put_opres(card->regs[r], arg_1, arg_2, op);
 	}
 	else
 	{
 		if (args[1] == T_DIR)
-			adress = card->curr_pos;
+			adress = card->cursor;
 		else
 			adress = get_arg_value(all, args, 1, 4);
 		arg_2 = &all->arena.map[adress];
-		put_opres(card->regs[args[2]], arg_1, arg_2, op);
-		card->curr_pos += (args[0] == T_DIR) ? DIR_SIZE : IND_SIZE;
+		put_opres(card->regs[r], arg_1, arg_2, op);
+		steps_forward = (args[0] == T_DIR) ? DIR_SIZE : IND_SIZE;
+		card->cursor = cursor_steps(card->cursor, steps_forward);
 	}
 }
 
-void		bit_op_dir(t_general *all, t_card *card, char *args, char op)  // 23 строки
+void		bit_op_dir(t_general *all, t_card *card, char *args, char op)  // 25 строки
 {
+	int		steps_forward;
 	int		adress;
 	char	*arg_1;
 	char	*arg_2;
+	int		r;
 
-	arg_1 = &all->arena.map[card->curr_pos];
+	adress = card->cursor + count_skiplen(args, 2, 4);
+	r = (all->arena).map[adress] - 1;
+	arg_1 = &all->arena.map[card->cursor]; // указатель на память T_DIR, по ней будет идти считывание 4 байта
 	if (args[1] == T_REG)
 	{
-		adress = all->arena.map[card->curr_pos + DIR_SIZE];
+		adress = all->arena.map[card->cursor + DIR_SIZE] - 1; // номер регистра
 		arg_2 = card->regs[adress];
-		put_opres(card->regs[args[2]], arg_1, arg_2, op);
-		card->curr_pos += REG_SIZE;
+		put_opres(card->regs[r], arg_1, arg_2, op);
+		card->cursor = cursor_steps(card->cursor, REG_SIZE);
 	}
 	else
 	{
 		if (args[1] == T_DIR)
-			adress = card->curr_pos + DIR_SIZE;
+			adress = card->cursor + DIR_SIZE;
 		else
 			adress = get_arg_value(all, args, 1, 4);
 		arg_2 = &all->arena.map[adress];
-		put_opres(card->regs[args[2]], arg_1, arg_2, op);
-		card->curr_pos += (args[0] == T_DIR) ? DIR_SIZE : IND_SIZE; // Проверено
+		put_opres(card->regs[r], arg_1, arg_2, op);
+		steps_forward = (args[0] == T_DIR) ? DIR_SIZE : IND_SIZE;
+		card->cursor = cursor_steps(card->cursor, steps_forward); // Проверено
 	}
 }
 
@@ -95,15 +102,20 @@ void		bit_op_in(t_general *all, t_card *card, char *args, char op) // 23 стр�
 	char	*arg_1;
 	char	*arg_2;
 	int		adress;
+	int		steps_forward;
+	int		r;
 
+	adress = card->cursor + count_skiplen(args, 2, 4);
+	r = (all->arena).map[adress] - 1;
 	adress = get_arg_value(all, args, 0, 4);
 	arg_1 = &all->arena.map[adress];
 	if (args[1] == T_REG)
 	{
-		adress = all->arena.map[card->curr_pos + IND_SIZE];
+		adress = all->arena.map[card->cursor + IND_SIZE];
 		arg_2 = card->regs[adress];
-		put_opres(card->regs[args[2]], arg_1, arg_2, op);
-		card->curr_pos += IND_SIZE + REG_SIZE; // Проверено
+		put_opres(card->regs[r], arg_1, arg_2, op);
+		steps_forward = IND_SIZE + REG_SIZE;
+		card->cursor = cursor_steps(card->cursor, steps_forward); // Проверено
 	}
 	else
 	{
@@ -112,7 +124,9 @@ void		bit_op_in(t_general *all, t_card *card, char *args, char op) // 23 стр�
 		else
 			adress += get_arg_value(all, args, 1, 4);
 		arg_2 = &all->arena.map[adress];
-		put_opres(card->regs[args[2]], arg_1, arg_2, op);
-		card->curr_pos += (args[1] == DIR_SIZE) ? DIR_SIZE : 2 * IND_SIZE;
+		put_opres(card->regs[r], arg_1, arg_2, op);
+		steps_forward = card->cursor;
+		steps_forward += (args[1] == DIR_SIZE) ? DIR_SIZE : 2 * IND_SIZE;
+		card->cursor = cursor_steps(card->cursor, steps_forward);
 	}
 }

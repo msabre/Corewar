@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:11:30 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/10 15:14:00 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/11 10:50:00 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct			s_card // каретка
 	int					num;
 	int					code_op;
 	int					last_live;
-	int					curr_pos;
+	int					cursor;
 	int					cycles_to_op;
 	char				**regs;
 	t_op				*op; // операция которую будет исполнять каретка
@@ -68,7 +68,7 @@ typedef struct			s_arena // для того чтобы было меньше if 
 
 typedef struct			s_general // хранит все что нужно для игры
 {
-	void				(*operations[16])(struct s_general, t_card *, char *); // ссылки на операции
+	void				(*operations[16])(struct s_general *, t_card *, char *); // ссылки на операции
 	t_player			*last_live; // о ком посл. раз сказали что он жив
 	t_player			*players; // список игроков
 	t_card				*cards; // список кареток
@@ -106,6 +106,7 @@ int						get_arg_value(t_general *all, char *args, int num, int t_dir_size);
 void					read_player(char **argv, t_general *all);
 int						cursor_to(int go_to);
 int						cursor_next(int current_position);
+int						cursor_steps(int current_position, int count);
 void					live(t_general *all, t_card *card, char *args);
 void					load(t_general *all, t_card *card, char *args);
 void					st(t_general *all, t_card *card, char *args);
@@ -128,6 +129,5 @@ void					bit_op_reg(t_general *all, t_card *card, char *args, char op);
 void					bit_op_dir(t_general *all, t_card *card, char *args, char op);
 void					bit_op_in(t_general *all, t_card *card, char *args, char op);
 void					add_op_links(t_general *all);
-
 
 #endif
