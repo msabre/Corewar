@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:25:26 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/11 15:10:38 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/12 14:17:30 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,6 @@ void				lst_free(t_player *lst)
 	}
 }
 
-static int			skip_op_code(t_op *operation)
-{
-	int				skip_bytes;
-	int				i;
-
-	i = 0;
-	skip_bytes = 0;
-	while (i < operation->argc)
-	{
-		if (operation->argv[i] == T_DIR)
-			skip_bytes += operation->t_dir_size;
-		else if (operation->argv[i] == T_REG)
-			skip_bytes += 1;
-		else if (operation->argv[i] == T_IND)
-			skip_bytes += 2;
-		i++;
-	}
-	return (skip_bytes);
-}
-
 static int			is_args_type(t_op *operation)
 {
 	if (operation->argc == 1 && operation->argv[0] == T_DIR)
@@ -56,81 +36,59 @@ static int			valid_arg(char my_arg, char valid_arg)
 	char			a;
 
 	a = my_arg & valid_arg;
-	if (a == T_DIR || a == T_IND || a == T_REG)
+	if (a == T_REG && !(a >= 1 && a <= REG_NUMBER))
+		return (-1);
+	if (a == T_REG || a == T_DIR || a == T_IND)
 		return (1);
 	return (0);
 }
 
-void				check_valid_op(t_general *all, t_card *card)
+void				check_valid_op(t_general *all, t_card *card, t_op *op)
 {
-	// void			(*op)(t_general *, t_card *, char *);
 	char			read_byte;
-	int				count_rb;
-	char			args[4];
-	int				div;
+	char			args[4] = {0};
+	int				skiplen;
+	int				shift;
 	int				i;
-	int				j;
 
-	i = 0;
-	j = 0;
-	count_rb = 0;
+	i = -1;
 	if (!card->op)
 		return ;
-	if (card->code_op)
+	read_byte = get_char(&all->arena, card->cursor); // считываем байт;
+	if (is_args_type(card->op))
 	{
-		read_byte = all->arena.map[card->cursor]; // считываем байт;
-		if (is_args_type(card->op))
+		shift = 6;
+		while (++i < card->op->argc)
 		{
-			div = 6;
-			while (i < card->op->argc)
+			args[i] = (read_byte >> shift);
+			args[i] &= 3;
+			if (!valid_arg(args[i], card->op->argv[i]))
 			{
-				args[i] = (read_byte >> div);
-				args[i] &= 3;
-				if (!valid_arg(args[i++], card->op->argv[j++]))
-				{
-					card->cursor = cursor_to(card->cursor + skip_op_code(card->op) + 1); // +1 байт хранящий код типов аргументов
-					return ;
-				}
-				div -= 2;
+				skiplen = card->cursor + count_skiplen(args, op->argc, op->t_dir_size);
+				card->cursor = cursor_to(card->cursor + skiplen);
+				return ;
 			}
-			card->cursor = cursor_next(card->cursor); // переключаемся на аргументы
+			shift -= 2;
 		}
-		all->operations[card->code_op - 1](all, card, args); // вызов операции
+		card->cursor = cursor_next(card->cursor);
 	}
+	all->operations[card->code_op - 1](all, card, args); // вызов операции
 }
 
-static t_op			*find_op(t_op *operations, int search, int high)
-{
-	int				low;
-	int				res;
-	int				mid;
-
-	low = 0;
-	while (low <= high)
-	{
-		mid = (high + low) / 2;
-		if (operations[mid].code_op == search)
-			return (&operations[mid]);
-		if (search < operations[mid].code_op)
-			high = mid - 1;
-		else
-			low = mid + 1;
-	}
-	return (NULL);
-}
-
-static void			check_cards(t_general *all, t_op *operations, t_card *cards, unsigned char *arena)
+static void			check_cards(t_general *all, t_card *cards, unsigned char *arena)
 {
 	while (cards)
 	{
 		if (!cards->cycles_to_op)
 		{
-			check_valid_op(all, cards); // исполнить операцию
+			check_valid_op(all, cards, cards->op); // исполнить операцию
 			cards->code_op = arena[cards->cursor]; // код операции
 			cards->cursor = cursor_next(cards->cursor);
-			cards->op = find_op(operations, cards->code_op, 16); // Передает указатель на операцию в случае нахождения
-			if (cards->op)
+			if (cards->code_op >= 1 && cards->code_op <= 16)
+			{
+				cards->op = &all->op_tab[cards->code_op - 1];
 				cards->cycles_to_op = cards->op->cycles; // кол-во циклов до исполнения
+			}
 		}
 		else
 			cards->cycles_to_op -= 1;
@@ -155,8 +113,8 @@ void				battle(t_general *all)
 			}
 			return ;
 		}
-		check_cards(all, all->ops_char, all->cards, all->arena.map);
-		if (all->cycles % all->ctd == 0) // Прошел 1 cycle_to_die
+		check_cards(all, all->cards, all->arena.map);
+		if ((all->cycles % all->ctd == 0) || all->ctd <= 0) // Прошел 1 cycle_to_die
 			check(all);
 		all->cycles += 1;
 	}
@@ -173,7 +131,7 @@ int					main(int argc, char **argv)
 		return (1);
 	else
 		read_player(argv, &all);
-	initial_arena(&all);
+	prepare_game(&all);
 	battle(&all);
 	return (0);
 }

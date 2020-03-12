@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initial_arena.c                                    :+:      :+:    :+:   */
+/*   prepair_game.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 10:19:24 by msabre            #+#    #+#             */
-/*   Updated: 2020/03/11 14:26:47 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/12 13:34:09 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/corewar.h"
 
-void				add_card(t_card **cards,int num, int pos)
+void				add_card(t_card **cards, int num, int pos)
 {
 	t_card			*new;
 	int				i;
@@ -21,22 +21,7 @@ void				add_card(t_card **cards,int num, int pos)
 	new = (t_card *)ft_memalloc(sizeof(t_card));
 	if (!new)
 		exit(-1);
-	new->regs = (unsigned char **)malloc(sizeof(unsigned char*) * REG_NUMBER);
-	while (i < REG_NUMBER)
-	{
-		new->regs[i] = (unsigned char *)ft_memalloc(sizeof(unsigned char) * REG_SIZE);
-		if (!new->regs[i])
-			exit(-1);
-		i++;
-	}
-	new->num = num;
-	num *= (-1);
-	i = 0;
-	while (i < 4)
-	{
-		new->regs[0][i++] = (unsigned char)(num & 255);
-		num = num >> 8;
-	}
+	new->regs[0] = num * (-1);
 	new->next = *cards;
 	if (*cards)
 		(*cards)->prev = new;
@@ -46,45 +31,45 @@ void				add_card(t_card **cards,int num, int pos)
 static void				put_execode(t_player *players, t_arena *arena, t_card **cards)
 {
 	int				mem_start;
-	int				i;
+	int				num_player;
 
-	i = 1;
+	num_player = 1;
 	while (players)
 	{
-		mem_start = (4096 / i);
+		mem_start = (MEM_SIZE / num_player);
 		set_mem(arena, players->exe_code, mem_start, players->len_exec);
-		add_card(cards, i, mem_start);
+		add_card(cards, num_player, mem_start);
 		players = players->next;
-		i++;
+		num_player++;
 	}
 }
 
-static void			create_arena(t_arena *arena)
+static void			initial_arena(t_arena *arena)
 {
-	arena->map = (unsigned char *)ft_memalloc(sizeof(unsigned char) * (4096 + 1));
+	int				size;
+
+	size = sizeof(unsigned char) * MEM_SIZE;
+	arena->map = (unsigned char *)ft_memalloc(size);
 	if (!arena->map)
 		exit(-1);
-	arena->get = get;
-	arena->next = next;
-	arena->set_byte = set_byte;
-	arena->set_mem = set_mem;
 	arena->ind = 0;
 }
 
-void				initial_arena(t_general *all)
+void				prepare_game(t_general *all)
 {
 	t_player		*tmp;
 
 	tmp = all->players;
 	all->cards = NULL;
-	create_arena(&all->arena);
+	initial_arena(&all->arena);
 	put_execode(all->players, &all->arena, &all->cards);
 	all->ctd = CYCLE_TO_DIE;
-	all->cycles = 1;
-	all->cn_ctd_live = 0;
-	create_op_tab(all);
+	all->cycles = 0;
+	all->checks_count = 0;
+	all->n_live_op = 0;
+	get_op_tab(all);
+	get_op_links(all);
 	while (tmp->next)
 		tmp = tmp->next;
 	all->last_live = tmp;
-	add_op_links(all);
 }

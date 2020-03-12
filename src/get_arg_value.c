@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 11:11:07 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/11 14:01:34 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/12 14:13:38 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,55 +37,43 @@ int			count_skiplen(char *args, int desire_arg, int t_dir_size)
 
 /*
 Функция возращает числовое значение аргумента в зависимости от его типа. Каретка во время исполнения не двигается
+При аргументе T_REG возращается значение храняещееся регистре
 */
 
-int					get_arg_value(t_general *all, char *args, int num, int t_dir_size) // arg - тип аргумента (10 || 11 || 01)
+int			get_arg_value(t_general *all, char *args, int num, bool mod)
 {
-	unsigned char	*adress;
-	int				value;
-	int				pos;
-	int				n_read;
-	int				i;
+	int		t_dir_size;
+	int		value;
+	int		size;
+	int		pos;
 
-	n_read = 4;
+	t_dir_size = all->cards->op->t_dir_size;
 	pos = all->cards->cursor + count_skiplen(args, num, t_dir_size);
-	if (args[num] == T_IND) // Получаем адрес
+	if (args[num] == T_REG)
 	{
-		i = 2;
-		value = 0;
-		while (i-- > 0)
-			value += all->arena.map[pos++];
-		adress = &all->arena.map[value];
+		value = get_char(&all->arena, pos) - 1;
+		return (all->cards->regs[value]);
 	}
-	else if (args[num] == T_REG) // Получаем номер регистра
-		adress = all->cards->regs[all->arena.map[pos] - 1];
-	else
+	if (args[num] == T_IND)
 	{
-		adress = &all->arena.map[pos];
-		n_read = t_dir_size;
+		pos += get_bytes(&all->arena, pos, 2);
+		pos = (mod) ? pos % IDX_MOD : pos;
 	}
-	i = 0;
-	value = 0;
-	while (i < n_read)
-		value += adress[i++];
+	size = (args[num] == T_DIR) ? t_dir_size : 4;
+	value = get_bytes(&all->arena, pos, size);
 	return (value);
 }
 
 /*
-Функция предназначена записывать байты с определенного адреса карты в регистр
+Функция вычисляет ячейку в которой хранится номер регистра и возращает его в числовом представлении
 */
 
-int			put_to_reg(unsigned char *arena, unsigned char **reg, int adress)
+int			get_nreg(t_arena *arena, char *args, int num, int t_dir_size)
 {
-	int		value;
-	int		i;
+	int		nreg;
+	int		pos;
 
-	i = 0;
-	value = 0;
-	while (i < 4)
-	{
-		(*reg)[i++] = arena[adress++];
-		value += arena[adress];
-	}
-	return (value);
+	pos = count_skiplen(args, num, t_dir_size);
+	nreg = get_char(arena, pos) - 1;
+	return (nreg);
 }

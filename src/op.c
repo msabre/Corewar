@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:10:23 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/10 15:14:19 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/12 13:30:28 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_op	op_tab[17] =
 	{0, 0, {0}, 0, 0, 0, 0, 0, 0}
 };
 
-void			create_op_tab(t_general *all)
+void			get_op_tab(t_general *all)
 {
-	all->ops_char = op_tab;
+	all->op_tab = op_tab;
 }
