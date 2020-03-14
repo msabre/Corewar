@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 17:00:44 by msabre            #+#    #+#             */
-/*   Updated: 2019/10/30 22:51:23 by msabre           ###   ########.fr       */
+/*   Updated: 2020/03/13 07:46:45 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,10 @@
 
 void	ft_putstr(char const *s)
 {
-	int	i;
+	int	len;
 
 	if (!s)
 		return ;
-	i = 0;
-	while (s[i] != '\0')
-	{
-		ft_putchar(s[i]);
-		i++;
-	}
+	len = ft_strlen(s);
+	write(1, s, len);
 }

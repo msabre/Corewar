@@ -6,13 +6,13 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 10:19:24 by msabre            #+#    #+#             */
-/*   Updated: 2020/03/12 13:34:09 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/13 09:34:04 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/corewar.h"
 
-void				add_card(t_card **cards, int num, int pos)
+void				add_card(t_card **cards, t_player *player, int pos)
 {
 	t_card			*new;
 	int				i;
@@ -21,26 +21,26 @@ void				add_card(t_card **cards, int num, int pos)
 	new = (t_card *)ft_memalloc(sizeof(t_card));
 	if (!new)
 		exit(-1);
-	new->regs[0] = num * (-1);
+	new->regs[0] = player->num * (-1);
 	new->next = *cards;
-	if (*cards)
-		(*cards)->prev = new;
+	new->player = player;
+	new->num = player->num;
 	*cards = new;
 }
 
-static void				put_execode(t_player *players, t_arena *arena, t_card **cards)
+static void			put_execode(t_player *players, t_arena *arena, t_card **cards)
 {
 	int				mem_start;
-	int				num_player;
 
-	num_player = 1;
+	set_mem(arena, players->exe_code, 0, players->len_exec);
+	add_card(cards, players, 0);
+	players = players->next;
 	while (players)
 	{
-		mem_start = (MEM_SIZE / num_player);
+		mem_start = (MEM_SIZE / players->num) - 1;
 		set_mem(arena, players->exe_code, mem_start, players->len_exec);
-		add_card(cards, num_player, mem_start);
+		add_card(cards, players, mem_start);
 		players = players->next;
-		num_player++;
 	}
 }
 
@@ -57,9 +57,6 @@ static void			initial_arena(t_arena *arena)
 
 void				prepare_game(t_general *all)
 {
-	t_player		*tmp;
-
-	tmp = all->players;
 	all->cards = NULL;
 	initial_arena(&all->arena);
 	put_execode(all->players, &all->arena, &all->cards);
@@ -69,7 +66,5 @@ void				prepare_game(t_general *all)
 	all->n_live_op = 0;
 	get_op_tab(all);
 	get_op_links(all);
-	while (tmp->next)
-		tmp = tmp->next;
-	all->last_live = tmp;
+	all->last_live = all->cards->player;
 }

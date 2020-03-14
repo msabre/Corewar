@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 11:11:07 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/12 14:13:38 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/13 12:00:36 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 Функция определяет сколько байт должна пройти каретка, чтобы оказаться на нужном аргументе
 */
 
-int			count_skiplen(char *args, int desire_arg, int t_dir_size)
+int			count_skiplen(t_card *card, int desire_arg)
 {
 	int		len;
 	int		i;
@@ -25,12 +25,12 @@ int			count_skiplen(char *args, int desire_arg, int t_dir_size)
 	len = 0;
 	while (++i < desire_arg)
 	{
-		if (args[i] == T_REG)
+		if (card->args[i] == REG_CODE)
 			len += 1;
-		else if (args[i] == T_IND)
+		else if (card->args[i] == IND_CODE)
 			len += IND_SIZE;
-		else if (args[i] == T_DIR)
-			len += t_dir_size;
+		else if (card->args[i] == DIR_CODE)
+			len += card->op->t_dir_size;
 	}
 	return (len);
 }
@@ -40,27 +40,27 @@ int			count_skiplen(char *args, int desire_arg, int t_dir_size)
 При аргументе T_REG возращается значение храняещееся регистре
 */
 
-int			get_arg_value(t_general *all, char *args, int num, bool mod)
+int			get_arg_value(t_arena *arena, t_card *card, int num, bool mod)
 {
-	int		t_dir_size;
+	int		dir_size;
 	int		value;
 	int		size;
 	int		pos;
 
-	t_dir_size = all->cards->op->t_dir_size;
-	pos = all->cards->cursor + count_skiplen(args, num, t_dir_size);
-	if (args[num] == T_REG)
+	dir_size = card->op->t_dir_size;
+	pos = card->cursor + count_skiplen(card, num);
+	if (card->args[num] == REG_CODE)
 	{
-		value = get_char(&all->arena, pos) - 1;
-		return (all->cards->regs[value]);
+		value = get_char(arena, pos) - 1;
+		return (card->regs[value]);
 	}
-	if (args[num] == T_IND)
+	if (card->args[num] == IND_CODE)
 	{
-		pos += get_bytes(&all->arena, pos, 2);
+		pos += get_bytes(arena, pos, 2) - 1;
 		pos = (mod) ? pos % IDX_MOD : pos;
 	}
-	size = (args[num] == T_DIR) ? t_dir_size : 4;
-	value = get_bytes(&all->arena, pos, size);
+	size = (card->args[num] == DIR_CODE) ? dir_size : 4;
+	value = get_bytes(arena, pos, size);
 	return (value);
 }
 
@@ -68,12 +68,14 @@ int			get_arg_value(t_general *all, char *args, int num, bool mod)
 Функция вычисляет ячейку в которой хранится номер регистра и возращает его в числовом представлении
 */
 
-int			get_nreg(t_arena *arena, char *args, int num, int t_dir_size)
+int			get_nreg(t_arena *arena, t_card *card, int num)
 {
+	int		dir_size;
 	int		nreg;
 	int		pos;
 
-	pos = count_skiplen(args, num, t_dir_size);
+	dir_size = card->op->t_dir_size;
+	pos = card->cursor + count_skiplen(card, num);
 	nreg = get_char(arena, pos) - 1;
 	return (nreg);
 }

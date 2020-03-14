@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 20:23:51 by avenonat          #+#    #+#             */
-/*   Updated: 2020/03/06 20:09:32 by avenonat         ###   ########.fr       */
+/*   Updated: 2020/03/13 09:14:03 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ static void		put_box(int num, t_player *player, t_player *head)
 	}
 }
 
-void			valid_check(int fd, char *argv, t_general *all)
+void			valid_check(int fd, char *argv, int num, t_general *all)
 {
 	t_player 	*head;
 	t_player 	*buffer;
 
-	head = init_player();
+	head = init_player(num);
 	check_magic(fd);
 	check_name(fd, head);
 	check_zeros(fd);

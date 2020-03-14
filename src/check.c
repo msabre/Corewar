@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 10:21:10 by msabre            #+#    #+#             */
-/*   Updated: 2020/03/12 13:50:12 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/13 07:44:10 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 static void			del_dies_cards(t_card **cards, int cycle, int cycles_to_die)
 {
-	t_card			*ptr_cards;
+	t_card			*ptr_card;
 	t_card			*tmp;
 
-	ptr_cards = *cards;
-	while (ptr_cards)
+	ptr_card = *cards;
+	while (ptr_card)
 	{
 		if (cycle - (*cards)->alive_cycle < 1 || cycles_to_die <= 0)
 		{
 			tmp = *cards;
-			(ptr_cards)->next = ptr_cards->next;
+			ptr_card = ptr_card->next;
 			if (tmp == *cards)
 				*cards = (*cards)->next;
 			free(tmp);
 		}
 		else
-			ptr_cards = ptr_cards->next;
+			ptr_card = ptr_card->next;
 	}
 }
 
