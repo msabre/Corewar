@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 13:22:59 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/22 12:07:14 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/22 13:02:49 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void			live(t_general *all, t_card *card)
 {
 	int			value;
 
-	if (all->cycles >= 3910)
-		value += 0;
 	all->n_live_op++;
 	card->alive_cycle = all->cycles;
 	value = get_fourbytes(&all->arena, card->cursor + card->steps);
@@ -31,8 +29,6 @@ void			load(t_general *all, t_card *card)
 	int			value;
 	int			r;
 
-	if (card->num == 4 && all->cycles > 3040)
-		r += 0;
 	value = get_arg_value(&all->arena, card, 0, true);
 	r = get_nreg(&all->arena, card, 1);
 	card->regs[r] = value;
@@ -63,8 +59,6 @@ void			st(t_general *all, t_card *card)
 	else
 		adress = get_arg_value(&all->arena, card, 1, true);
 	card->carry = (!value) ? true : false;
-	if (adress >= 769)
-		r = r;
 	set_reg(&all->arena, card->regs[r], adress);
 }
 
@@ -74,8 +68,6 @@ void			add(t_general *all, t_card *card)
 	int			arg_2;
 	int			r;
 
-	if (card->num == 4 && all->cycles > 3040)
-		r += 0;
 	arg_1 = get_arg_value(&all->arena, card, 0, false);
 	arg_2 = get_arg_value(&all->arena, card, 1, false);
 	r = get_nreg(&all->arena, card, 2);
@@ -89,8 +81,6 @@ void			sub(t_general *all, t_card *card)
 	int			arg_2;
 	int			r;
 
-	if (card->num == 4 && all->cycles > 3040)
-		r += 0;
 	arg_1 = get_arg_value(&all->arena, card, 0, false);
 	arg_2 = get_arg_value(&all->arena, card, 1, false);
 	r = get_nreg(&all->arena, card, 2);
@@ -104,8 +94,6 @@ void			and(t_general *all, t_card *card)
 	int			arg_2;
 	int			r;
 
-	if (card->num == 4 && all->cycles > 3040)
-		r += 0;
 	arg_1 = get_arg_value(&all->arena, card, 0, true);
 	arg_2 = get_arg_value(&all->arena, card, 1, true);
 	r = get_nreg(&all->arena, card, 2);
@@ -119,8 +107,6 @@ void			or(t_general *all, t_card *card)
 	int			arg_2;
 	int			r;
 
-	if (card->num == 4 && all->cycles > 3040)
-		r += 0;
 	arg_1 = get_arg_value(&all->arena, card, 0, true);
 	arg_2 = get_arg_value(&all->arena, card, 1, true);
 	r = get_nreg(&all->arena, card, 2);
@@ -134,8 +120,6 @@ void			xor(t_general *all, t_card *card)
 	int			arg_2;
 	int			r;
 
-	if (card->num == 4 && all->cycles > 3040)
-		r += 0;
 	arg_1 = get_arg_value(&all->arena, card, 0, true);
 	arg_2 = get_arg_value(&all->arena, card, 1, true);
 	r = get_nreg(&all->arena, card, 2);
@@ -143,16 +127,10 @@ void			xor(t_general *all, t_card *card)
 	card->carry = (!card->regs[r]) ? 1 : 0;
 }
 
-// Исправил
-
 void			zjmp(t_general *all, t_card *card)
 {
 	int			cursor_update;
 
-	if (card->num == 4 && all->cycles > 3040)
-		cursor_update += 0;
-	if (all->cycles == 3570)
-		cursor_update = cursor_update;
 	if (!card->carry)
 	{
 		card->steps += card->op->t_dir_size;
@@ -170,8 +148,6 @@ void			ldi(t_general *all, t_card *card)
 	int			adress;
 	int			r;
 
-	if (card->num == 4 && all->cycles > 3040)
-		r += 0;
 	adress = get_arg_value(&all->arena, card, 0, true);
 	adress += get_arg_value(&all->arena, card, 1, true);
 	adress %= IDX_MOD;
@@ -186,15 +162,11 @@ void				sti(t_general *all, t_card *card)
 	int				value;
 
 	adress = 0;
-	if (card->num == 4 && all->cycles > 3040)
-		value += 0;
 	value = get_arg_value(&all->arena, card, 0, false);
 	adress = get_arg_value(&all->arena, card, 1, true);
 	adress += get_arg_value(&all->arena, card, 2, true);
 	adress %= IDX_MOD;
 	adress += card->cursor;
-	if (adress >= 769)
-		value = value;
 	set_reg(&all->arena, value, adress);
 }
 
@@ -204,8 +176,6 @@ void			fork_m(t_general *all, t_card *card)
 	int			adress;
 	int			i;
 
-	if (card->num == 4 && all->cycles > 3040)
-		i += 0;
 	adress = get_twobytes(&all->arena, card->cursor + card->steps);
 	adress %= IDX_MOD;
 	card->steps += 2;
@@ -267,17 +237,6 @@ void			lfork(t_general *all, t_card *card)
 	new->next = all->cards;
 	new->steps = 0;
 	new->num = all->current_card_num++;
-	new->code_op = get_char(&all->arena, new->cursor);
-	if (new->code_op >= 1 && new->code_op <= 16)
-	{
-		new->op = &all->op_tab[new->code_op - 1];
-		new->cycles_to_op = new->op->cycles - 1;
-	}
-	else
-	{
-		new->op = NULL;
-		new->cycles_to_op = 0;
-	}
 	all->cards = new;
 }
 
