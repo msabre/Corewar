@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 11:11:07 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/13 12:00:36 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/18 09:32:41 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,30 @@ int			get_arg_value(t_arena *arena, t_card *card, int num, bool mod)
 	int		dir_size;
 	int		value;
 	int		size;
-	int		pos;
+	int		adress;
 
 	dir_size = card->op->t_dir_size;
-	pos = card->cursor + count_skiplen(card, num);
+	adress = card->cursor + card->steps;
 	if (card->args[num] == REG_CODE)
 	{
-		value = get_char(arena, pos) - 1;
+		card->steps += 1;
+		value = get_char(arena, adress) - 1;
 		return (card->regs[value]);
 	}
 	if (card->args[num] == IND_CODE)
 	{
-		pos += get_bytes(arena, pos, 2) - 1;
-		pos = (mod) ? pos % IDX_MOD : pos;
+		card->steps += IND_SIZE;
+		value = get_twobytes(arena, adress);
+		adress = cursor_to(card->cursor + value);
+		adress = (mod) ? adress % IDX_MOD : adress;
 	}
+	else
+		card->steps += dir_size;
 	size = (card->args[num] == DIR_CODE) ? dir_size : 4;
-	value = get_bytes(arena, pos, size);
+	if (size == 4)
+		value = get_fourbytes(arena, adress);
+	else
+		value = get_twobytes(arena, adress);
 	return (value);
 }
 
@@ -75,7 +83,8 @@ int			get_nreg(t_arena *arena, t_card *card, int num)
 	int		pos;
 
 	dir_size = card->op->t_dir_size;
-	pos = card->cursor + count_skiplen(card, num);
+	pos = card->cursor + card->steps;
 	nreg = get_char(arena, pos) - 1;
+	card->steps += 1;
 	return (nreg);
 }

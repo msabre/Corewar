@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:11:30 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/13 10:51:53 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/18 11:08:43 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct			s_card // каретка
 	int					code_op;
 	int					alive_cycle;
 	int					cursor;
+	int					steps;
 	int					cycles_to_op;
 	int					regs[REG_NUMBER];
 	char				args[MAX_ARGS_NUMBER];
@@ -59,7 +60,7 @@ typedef struct			s_card // каретка
 
 typedef struct			s_arena // для того чтобы было меньше if и память была зациклена 
 {
-	unsigned char		*map;
+	unsigned char		map[MEM_SIZE];
 	int					ind;
 }						t_arena;
 
@@ -71,6 +72,8 @@ typedef struct			s_general // хранит все что нужно для иг�
 	t_card				*cards; // список кареток
 	t_op				*op_tab;
 	t_arena				arena;
+	int					current_card_num;
+	int					last_check; // цикл на котором была последняя проверка
 	int					n_live_op;
 	int					flag_n;
 	int					checks_count;
@@ -90,12 +93,13 @@ void					check_name(int fd, t_player *player);
 void					check_zeros(int fd);
 void					length_exec_code(int fd, t_player *player);
 void					champ_comment(int fd, t_player *player);
-void				    check_champ_code(int fd, t_player *player);
+void					check_champ_code(int fd, t_player *player);
 t_player				*skip_box(t_player *player);
 void					write_error();
-char					get_char(t_arena *arena, int num);
-int						get_bytes(t_arena *arena, int start, int size);
-char					next(t_arena *arena);
+unsigned char			get_char(t_arena *arena, int num);
+int						get_fourbytes(t_arena *arena, int start);
+int						get_twobytes(t_arena *arena, int start);
+int						next(t_arena *arena);
 void					set_byte(t_arena *arena, unsigned char byte, int num);
 void					set_reg(t_arena *arena, int reg, int adress);
 int						set_mem(t_arena *arena, unsigned char *mem, int num, int size);
@@ -105,6 +109,7 @@ int						count_skiplen(t_card *card, int desire_arg);
 int						get_arg_value(t_arena *arena, t_card *card, int num, bool mod);
 int						get_nreg(t_arena *arena, t_card *card, int num);
 int						cursor_to(int go_to);
+int						cursor_move(t_card *card);
 int						cursor_next(int current_position);
 int						cursor_steps(int current_position, int count);
 void					live(t_general *all, t_card *card);

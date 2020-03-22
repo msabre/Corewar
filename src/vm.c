@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:25:26 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/13 12:23:24 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/22 12:10:24 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,33 @@ void				lst_free(t_player *lst)
 	}
 }
 
+static void			get_op_code(t_card *card, t_arena *arena, t_op *op_tab)
+{
+	card->code_op = get_char(arena, card->cursor);
+	if (card->code_op >= 1 && card->code_op <= 16)
+		card->cycles_to_op = op_tab[card->code_op - 1].cycles;
+}
+
+static int			calc_argslen(t_op *op)
+{
+	int				args_len;
+	int				i;
+
+	i = 0;
+	args_len = 0;
+	while (i < op->argc)
+	{
+		if (op->argv[i] == REG_CODE)
+			args_len += 1;
+		else if (op->argv[i] == IND_CODE)
+			args_len += IND_SIZE;
+		else if (op->argv[i] == DIR_CODE)
+			args_len += op->t_dir_size;
+		i++;
+	}
+	return (args_len);
+}
+
 static int			is_args_type(t_op *operation)
 {
 	if (operation->argc == 1 && operation->argv[0] == DIR_CODE)
@@ -58,52 +85,52 @@ static int			valid_arg(char my_arg, char valid_arg)
 void				check_valid_op(t_general *all, t_card *card, t_op *op)
 {
 	char			read_byte;
-	int				skiplen;
 	int				shift;
 	int				i;
 
 	i = -1;
-	read_byte = get_char(&all->arena, card->cursor); // считываем байт;
+	card->steps += 1;
+	read_byte = get_char(&all->arena, card->cursor + card->steps); // считываем байт;
 	if (is_args_type(card->op))
 	{
 		shift = 6;
+		card->steps += 1;
 		while (++i < card->op->argc)
 		{
 			card->args[i] = (read_byte >> shift);
 			card->args[i] &= 3;
 			if (!valid_arg(card->args[i], card->op->argv[i]))
 			{
-				skiplen = card->cursor + count_skiplen(card, op->t_dir_size);
-				card->cursor = cursor_to(card->cursor + skiplen);
+				card->steps += calc_argslen(card->op);
 				return ;
 			}
 			shift -= 2;
 		}
-		card->cursor = cursor_next(card->cursor);
 	}
 	all->operations[card->code_op - 1](all, card); // вызов операции
 }
 
 static void			check_cards(t_general *all, t_card *cards, unsigned char *arena)
 {
+	all->cycles++;
 	while (cards)
 	{
-		if (!cards->cycles_to_op)
+		if (cards->cycles_to_op == 0)
+			get_op_code(cards, &all->arena, all->op_tab);
+		if (cards->cycles_to_op > 0)
+			cards->cycles_to_op -= 1;
+		if (cards->cycles_to_op == 0)
 		{
+			cards->op = NULL;
+			if (cards->code_op >= 1 && cards->code_op <= 16)
+				cards->op = &all->op_tab[cards->code_op - 1];
 			if (cards->op)
 				check_valid_op(all, cards, cards->op); // исполнить операцию
-			cards->code_op = arena[cards->cursor]; // код операции
-			cards->cursor = cursor_next(cards->cursor);
-			if (cards->code_op >= 1 && cards->code_op <= 16)
-			{
-				cards->op = &all->op_tab[cards->code_op - 1];
-				cards->cycles_to_op = cards->op->cycles; // кол-во циклов до исполнения
-			}
 			else
-				cards->op = NULL;
+				cards->steps = 1;
+			cards->cursor = cursor_move(cards);
+			cards->steps = 0;
 		}
-		else
-			cards->cycles_to_op -= 1;
 		cards = cards->next;
 	}
 }
@@ -115,7 +142,6 @@ void				battle(t_general *all)
 
 	while (all->cards) // пока жива хотя бы одна каретка
 	{
-		all->cycles += 1;
 		if (all->stop_cycle > 0 && all->cycles == all->stop_cycle)
 		{
 			i = 0;
@@ -127,7 +153,7 @@ void				battle(t_general *all)
 			return ;
 		}
 		check_cards(all, all->cards, all->arena.map);
-		if ((all->cycles % all->ctd) == 0 || all->ctd <= 0) // Прошел 1 cycle_to_die
+		if ((all->cycles - all->last_check) == all->ctd || all->ctd <= 0) // Прошел 1 cycle_to_die
 			check(all);
 	}
 	announce_the_winner(all->last_live);
@@ -148,5 +174,3 @@ int					main(int argc, char **argv)
 	battle(&all);
 	return (0);
 }
-
-// Поместить аргс в каретку

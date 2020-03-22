@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 10:19:24 by msabre            #+#    #+#             */
-/*   Updated: 2020/03/13 09:34:04 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/22 11:32:43 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,27 +44,19 @@ static void			put_execode(t_player *players, t_arena *arena, t_card **cards)
 	}
 }
 
-static void			initial_arena(t_arena *arena)
-{
-	int				size;
-
-	size = sizeof(unsigned char) * MEM_SIZE;
-	arena->map = (unsigned char *)ft_memalloc(size);
-	if (!arena->map)
-		exit(-1);
-	arena->ind = 0;
-}
-
 void				prepare_game(t_general *all)
 {
 	all->cards = NULL;
-	initial_arena(&all->arena);
+	all->arena.ind = 0;
+	ft_bzero(all->arena.map, MEM_SIZE);
 	put_execode(all->players, &all->arena, &all->cards);
 	all->ctd = CYCLE_TO_DIE;
 	all->cycles = 0;
 	all->checks_count = 0;
+	all->change_ctd = 0;
 	all->n_live_op = 0;
 	get_op_tab(all);
 	get_op_links(all);
 	all->last_live = all->cards->player;
+	all->current_card_num = all->cards->num + 1;
 }

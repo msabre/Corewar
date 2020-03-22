@@ -6,36 +6,55 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 10:16:57 by msabre            #+#    #+#             */
-/*   Updated: 2020/03/12 14:14:40 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/22 12:06:39 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/corewar.h"
 
-char				next(t_arena *arena)
+int					next(t_arena *arena)
 {
-	if (arena->ind > 4095)
-		arena->ind %= 4096;
+	arena->ind %= 4096;
+	if (arena->ind < 0)
+		arena->ind += MEM_SIZE;
 	return (arena->map[arena->ind]);
 }
 
-char				get_char(t_arena *arena, int num)
+unsigned char		get_char(t_arena *arena, int num)
 {
-	if (num > 4095)
-		num %= 4096;
+	num %= MEM_SIZE;
+	if (num < 0)
+		num += MEM_SIZE;
 	return (arena->map[num]);
 }
 
-int					get_bytes(t_arena *arena, int start, int size)
+int					get_twobytes(t_arena *arena, int start)
+{
+	short			value;
+	int				i;
+
+	i = 0;
+	value = 0;
+	while (i < 2)
+	{
+		value <<= 8 * i;
+		value |= (int)get_char(arena, start++);
+		i++;
+	}
+	return (value);
+}
+
+int					get_fourbytes(t_arena *arena, int start)
 {
 	int				value;
 	int				i;
 
 	i = 0;
 	value = 0;
-	while (i < size)
+	while (i < 4)
 	{
-		value += get_char(arena, start++);
+		value <<= 8;
+		value |= (int)get_char(arena, start++);
 		i++;
 	}
 	return (value);
@@ -43,8 +62,9 @@ int					get_bytes(t_arena *arena, int start, int size)
 
 void				set_byte(t_arena *arena, unsigned char byte, int num)
 {
-	if (num > 4095)
-		num %= 4096;
+	num %= MEM_SIZE;
+	if (num < 0)
+		num += MEM_SIZE;
 	arena->map[num] = byte;
 }
 
@@ -65,14 +85,17 @@ int					set_mem(t_arena *arena, unsigned char *mem, int num, int size)
 
 void		set_reg(t_arena *arena, int reg, int adress)
 {
+	unsigned char value;
 	int		size;
 	int		shift;
 
 	size = REG_SIZE;
 	shift = 0;
-	while (size--)
+	while (size > 0)
 	{
-		set_byte(arena, (reg >> shift) & 255, adress++);
+		value = (unsigned char)((reg >> shift) & 255);
+		set_byte(arena, value, (adress + size - 1));
 		shift += 8;
+		size--;
 	}
 }
