@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 13:22:59 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/23 11:38:54 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/23 13:05:06 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void		log_live(int card_num, int player_num)
 {
-	ft_printf("P %4d | live %d\n", card_num, player_num);
+	ft_printf("P %4d | live %d\n", card_num, -player_num);
 }
 
 void			live(t_general *all, t_card *card)
@@ -46,7 +46,7 @@ void			load(t_general *all, t_card *card)
 	card->regs[r] = value;
 	card->carry = (!card->regs[r]) ? 1 : 0;
 	if (all->flag_v)
-		log_load(card->num, value, r);
+		log_load(card->num, value, r + 1);
 }
 
 static void		log_st(int cursor_id, int r, int adress)
@@ -80,7 +80,7 @@ void			st(t_general *all, t_card *card)
 	card->carry = (!value) ? true : false;
 	set_reg(&all->arena, card->regs[r], adress);
 	if (all->flag_v)
-		log_st(card->num, r, adress);
+		log_st(card->num, r + 1, adress);
 }
 
 static void		log_add(int card_num, int r1, int r2, int r3)
@@ -100,7 +100,7 @@ void			add(t_general *all, t_card *card)
 	card->regs[r3] = card->regs[r1] + card->regs[r2];
 	card->carry = (!card->regs[r3]) ? true : false;
 	if (all->flag_v)
-		log_add(card->num, r1, r2, r3);
+		log_add(card->num, r1 + 1, r2 + 1, r3 + 1);
 }
 
 static void		log_sub(int card_num, int r1, int r2, int r3)
@@ -120,7 +120,7 @@ void			sub(t_general *all, t_card *card)
 	card->regs[r3] = card->regs[r1] - card->regs[r2];
 	card->carry = (!card->regs[r3]) ? true : false;
 	if (all->flag_v)
-		log_sub(card->num, r1, r2, r3);
+		log_sub(card->num, r1 + 1, r2 + 1, r3 + 1);
 }
 
 static void		log_and(int card_num, int arg_1, int arg_2, int r)
@@ -140,7 +140,7 @@ void			and(t_general *all, t_card *card)
 	card->regs[r] = arg_1 & arg_2;
 	card->carry = (!card->regs[r]) ? 1 : 0;
 	if (all->flag_v)
-		log_and(card->num, arg_1, arg_2, r);
+		log_and(card->num, arg_1, arg_2, r + 1);
 }
 
 static void		log_or(int card_num, int arg_1, int arg_2, int r)
@@ -160,7 +160,7 @@ void			or(t_general *all, t_card *card)
 	card->regs[r] = arg_1 | arg_2;
 	card->carry = (!card->regs[r]) ? 1 : 0;
 	if (all->flag_v)
-		log_or(card->num, arg_1, arg_2, r);
+		log_or(card->num, arg_1, arg_2, r + 1);
 }
 
 static void		log_xor(int card_num, int arg_1, int arg_2, int r)
@@ -180,7 +180,7 @@ void			xor(t_general *all, t_card *card)
 	card->regs[r] = arg_1 ^ arg_2;
 	card->carry = (!card->regs[r]) ? 1 : 0;
 	if (all->flag_v)
-		log_xor(card->num, arg_1, arg_2, r);
+		log_xor(card->num, arg_1, arg_2, r + 1);
 }
 
 static void		log_zjmp(int card_num, int adress, bool carry)
@@ -199,11 +199,10 @@ void			zjmp(t_general *all, t_card *card)
 	}
 	cursor_update = get_twobytes(&all->arena, card->cursor + card->steps);
 	cursor_update %= IDX_MOD;
-	cursor_update += card->cursor;
 	card->steps = 0;
-	card->cursor = cursor_to(cursor_update);
+	card->cursor = cursor_to(cursor_update + card->cursor);
 	if (all->flag_v)
-		log_zjmp(card->num, card->cursor, card->carry);
+		log_zjmp(card->num, cursor_update, card->carry);
 }
 
 static void		log_ldi(t_card *card, int adress_1, int adress_2, int r)
@@ -228,7 +227,7 @@ void			ldi(t_general *all, t_card *card)
 	r = get_nreg(&all->arena, card, 2);
 	card->regs[r] = (unsigned int)get_fourbytes(&all->arena, adress);
 	if (all->flag_v)
-		log_ldi(card, adress_1, adress_2, r);
+		log_ldi(card, adress_1, adress_2, r + 1);
 }
 
 static void		log_sti(t_card *card, int adress_1, int adress_2, int r)
@@ -255,7 +254,7 @@ void			sti(t_general *all, t_card *card)
 	adress += card->cursor;
 	set_reg(&all->arena, value, adress);
 	if (all->flag_v)
-		log_ldi(card, adress_1, adress_2, r);
+		log_sti(card, adress_1, adress_2, r + 1);
 }
 
 static void		log_fork_m(int card_num, int card_cursor, int adress)
@@ -305,7 +304,7 @@ void			lld(t_general *all, t_card *card)
 	card->regs[r] = value;
 	card->carry = (!card->regs[r]) ? 1 : 0;
 	if (all->flag_v)
-		log_lld(card->num, value, r);
+		log_lld(card->num, value, r + 1);
 }
 
 static void		log_lldi(t_card *card, int adress_1, int adress_2, int r)
@@ -330,7 +329,7 @@ void			lldi(t_general *all, t_card *card)
 	r = get_nreg(&all->arena, card, 2);
 	card->regs[r] = (unsigned int)get_fourbytes(&all->arena, adress);
 	if (all->flag_v)
-		log_lldi(card, adress_1, adress_2, r);
+		log_lldi(card, adress_1, adress_2, r + 1);
 }
 
 static void		log_lfork(int card_num, int card_cursor, int adress)
@@ -395,3 +394,5 @@ void			get_op_links(t_general *all)
 	all->operations[14] = lfork;
 	all->operations[15] = aff;
 }
+
+//gcc -g src/*.c -o corewar libft/libft.a

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:21:14 by msabre            #+#    #+#             */
-/*   Updated: 2019/11/27 14:11:27 by msabre           ###   ########.fr       */
+/*   Updated: 2020/03/23 12:51:34 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ void			ft_lstadd(t_gnlist **alst, t_gnlist *new)
 
 	ptr = *alst;
 	if (!ptr)
+	{
 		*alst = new;
+		(*alst)->next = NULL;
+	}
 	else
 	{
 		while (ptr->next != NULL)
