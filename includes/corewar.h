@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:11:30 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/18 11:08:43 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/23 10:38:53 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct			s_general // хранит все что нужно для иг�
 	int					last_check; // цикл на котором была последняя проверка
 	int					n_live_op;
 	int					flag_n;
+	int					flag_v;
 	int					checks_count;
 	int					stop_cycle;
 	int					ctd; // cycle to die

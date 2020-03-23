@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 10:19:24 by msabre            #+#    #+#             */
-/*   Updated: 2020/03/22 11:32:43 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/03/23 11:40:29 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void				prepare_game(t_general *all)
 	put_execode(all->players, &all->arena, &all->cards);
 	all->ctd = CYCLE_TO_DIE;
 	all->cycles = 0;
+	all->flag_v = 1;
 	all->checks_count = 0;
 	all->change_ctd = 0;
 	all->n_live_op = 0;
