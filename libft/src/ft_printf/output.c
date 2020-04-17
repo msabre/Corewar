@@ -44,7 +44,7 @@ int			add_anytext_tobuff(t_list *l)
 	while (l->format[l->i] != '%' && l->format[l->i] != '\0')
 		l->i++;
 	count = l->i - i;
-	simple_text = (char*)malloc(sizeof(char) * (count + 1));
+	simple_text = (char*)ft_memalloc(sizeof(char) * (count + 1));
 	if (!simple_text)
 		return (-1);
 	while (count > 0)
@@ -60,7 +60,6 @@ int			chr_output(t_list *l)
 {
 	char	*result;
 
-	result = NULL;
 	if (!(result = flag_inicializatian(l)))
 		return (-1);
 	if (!(fill_output(l, result)))

@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 10:21:10 by msabre            #+#    #+#             */
-/*   Updated: 2020/03/22 13:30:11 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/07 17:11:28 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ static void			del_dies_cards(t_general *all)
 	prev = NULL;
 	while (card)
 	{
-		if (card->num == 17)
-			prev = prev;
 		if ((all->cycles - card->alive_cycle) >= all->ctd || all->ctd <= 0)
 		{
+			if (all->flag_v & SHOW_DEATHS)
+				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n",
+					card->num, all->cycles - card->alive_cycle, all->ctd);
 			tmp = card;
 			card = card->next;
 			if (prev)
@@ -45,17 +46,17 @@ static void			del_dies_cards(t_general *all)
 void				check(t_general *all)
 {
 	all->checks_count++;
+	del_dies_cards(all);
 	all->last_check = all->cycles;
-	if (all->n_live_op >= NBR_LIVE)
+	if (all->checks_count == MAX_CHECKS || all->n_live_op >= NBR_LIVE)
 	{
 		all->ctd -= CYCLE_DELTA;
-		all->change_ctd = 1;
+		all->checks_count = 0;
+		if (all->flag_v & SHOW_CYCLES)
+			ft_printf("Cycle to die is now %d\n", all->ctd);
 	}
-	if (all->checks_count == MAX_CHECKS && all->change_ctd == 0)
-		all->ctd -= CYCLE_DELTA;
 	else
 		all->change_ctd -= 1;
 	all->n_live_op = 0;
 	all->change_ctd = 0;
-	del_dies_cards(all);
 }

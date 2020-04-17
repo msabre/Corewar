@@ -6,20 +6,11 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 14:05:12 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/20 10:00:02 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/04 12:56:17 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/corewar.h"
-
-int		cursor_next(int current_position)
-{
-	current_position %= MEM_SIZE;
-	if (current_position < 0)
-		current_position += MEM_SIZE;
-	current_position += 1;
-	return (current_position);
-}
 
 int		cursor_move(t_card *card)
 {

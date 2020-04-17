@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dioux_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 19:58:50 by msabre            #+#    #+#             */
-/*   Updated: 2019/10/30 22:45:38 by msabre           ###   ########.fr       */
+/*   Updated: 2020/03/28 13:15:08 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ char					*decimy_to_any(unsigned long long num_integer,
 
 	alp_register = 65;
 	(flag == 'x') ? alp_register = 97 : alp_register;
-	if (!(result = (char*)malloc(sizeof(char) * 300)))
+	if (!(result = (char*)ft_memalloc(sizeof(char) * 300)))
 		return (NULL);
 	if (num_integer == 0)
 	{

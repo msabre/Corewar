@@ -131,5 +131,6 @@ int							fill_output(t_list *l, char *result)
 	i = position_after_outadd(l, minus, i);
 	while (l->out[j])
 		result[i++] = (l)->out[j++];
+    result[i] = '\0';
 	return (!(get_buffer(l, result))) ? -1 : 1;
 }

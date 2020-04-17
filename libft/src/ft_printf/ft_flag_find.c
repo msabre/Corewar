@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_flag_find.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 20:38:06 by msabre            #+#    #+#             */
-/*   Updated: 2019/10/30 22:45:29 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/06 11:32:18 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 int			ft_flag_function_find(va_list args, t_list *l, char *type)
 {
-	int		i;
 	int		res;
 
-	i = 0;
 	res = 0;
 	if (ft_memchr("di", l->format[l->i], 2))
 		res = output_di_flags(args, type, l);

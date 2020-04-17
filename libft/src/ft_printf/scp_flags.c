@@ -61,10 +61,10 @@ int					output_cs_flags(va_list args, t_list *l)
 		s_flag_config(l, args);
 	else
 	{
-		if (!(l->out = ft_memalloc(1)))
+		if (!(l->out = ft_memalloc(sizeof(char) * 2)))
 			return (-1);
 		c = va_arg(args, int);
-		*(l->out) = c;
+		l->out[0] = c;
 		l->free_block = (c == 0) ? 1 : 0;
 		l->out_length = 1;
 	}

@@ -13,12 +13,12 @@
 #ifndef FT_LIBFT_H
 # define FT_LIBFT_H
 # include <stdlib.h>
+# include <stdbool.h>
 # include <string.h>
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
-# include <ncurses.h>
 # include <locale.h>
 # include "ft_printf.h"
 # include "get_next_line.h"

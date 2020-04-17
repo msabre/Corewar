@@ -6,171 +6,103 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:25:26 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/03/23 11:47:02 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/08 17:32:02 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/corewar.h"
 
-void				announce_the_winner(t_player *player)
+void			del_content(t_general *all)
 {
-	char			c;
+	t_card		*ptr;
+	int			i;
 
-	c = '"';
-	ft_printf("Contestant %d ", player->num);
-	write(1, &c, 1);
-	write(1, player->name, ft_strlen(player->name));
-	write(1, &c, 1);
-	ft_putstr(", has won !");
-}
-
-void				lst_free(t_player *lst)
-{
-	t_player		*ptr;
-
-	while (lst)
+	i = 0;
+	while (i < all->n_players)
 	{
-		ptr = lst;
-		lst = lst->next;
+		free(all->players[i]->name);
+		free(all->players[i]->comment);
+		free(all->players[i]->exe_code);
+		free(all->players[i]);
+		i++;
+	}
+	while (all->cards)
+	{
+		ptr = all->cards;
+		all->cards = all->cards->next;
 		free(ptr);
 	}
 }
 
-static void			get_op_code(t_card *card, t_arena *arena, t_op *op_tab)
+void			announce_players(t_player **players, int count)
 {
-	card->code_op = get_char(arena, card->cursor);
-	if (card->code_op >= 1 && card->code_op <= 16)
-		card->cycles_to_op = op_tab[card->code_op - 1].cycles;
-}
-
-static int			calc_argslen(t_op *op)
-{
-	int				args_len;
-	int				i;
+	int			i;
 
 	i = 0;
-	args_len = 0;
-	while (i < op->argc)
+	ft_printf("Introducing contestants...\n");
+	while (i < count)
 	{
-		if (op->argv[i] == REG_CODE)
-			args_len += 1;
-		else if (op->argv[i] == IND_CODE)
-			args_len += IND_SIZE;
-		else if (op->argv[i] == DIR_CODE)
-			args_len += op->t_dir_size;
+		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
+			players[i]->num, players[i]->len_exec,
+				players[i]->name, players[i]->comment);
 		i++;
 	}
-	return (args_len);
 }
 
-static int			is_args_type(t_op *operation)
+static void		print_arena(unsigned char *arena)
 {
-	if (operation->argc == 1 && operation->argv[0] == DIR_CODE)
-		return (0);
-	return (1);
-}
+	int			j;
+	int			i;
 
-static int			valid_arg(char my_arg, char valid_arg)
-{
-	char			a;
-
-	a = my_arg & valid_arg;
-	if (a == REG_CODE && !(a >= 1 && a <= REG_NUMBER))
-		return (-1);
-	if (a == REG_CODE || a == DIR_CODE || a == IND_CODE)
-		return (1);
-	return (0);
-}
-
-void				check_valid_op(t_general *all, t_card *card, t_op *op)
-{
-	char			read_byte;
-	int				shift;
-	int				i;
-
-	i = -1;
-	card->steps += 1;
-	read_byte = get_char(&all->arena, card->cursor + card->steps); // считываем байт;
-	if (is_args_type(card->op))
+	i = 0;
+	while (i < MEM_SIZE)
 	{
-		shift = 6;
-		card->steps += 1;
-		while (++i < card->op->argc)
+		j = 0;
+		ft_printf("0x%.4x : ", i);
+		while (j < 32)
 		{
-			card->args[i] = (read_byte >> shift);
-			card->args[i] &= 3;
-			if (!valid_arg(card->args[i], card->op->argv[i]))
-			{
-				card->steps += calc_argslen(card->op);
-				return ;
-			}
-			shift -= 2;
+			ft_printf("%.2x ", arena[i + j]);
+			j++;
 		}
-	}
-	all->operations[card->code_op - 1](all, card); // вызов операции
-}
-
-static void			check_cards(t_general *all, t_card *cards, unsigned char *arena)
-{
-	all->cycles++;
-	while (cards)
-	{
-		if (cards->cycles_to_op == 0)
-			get_op_code(cards, &all->arena, all->op_tab);
-		if (cards->cycles_to_op > 0)
-			cards->cycles_to_op -= 1;
-		if (cards->cycles_to_op == 0)
-		{
-			cards->op = NULL;
-			if (cards->code_op >= 1 && cards->code_op <= 16)
-				cards->op = &all->op_tab[cards->code_op - 1];
-			if (cards->op)
-				check_valid_op(all, cards, cards->op); // исполнить операцию
-			else
-				cards->steps = 1;
-			cards->cursor = cursor_move(cards);
-			cards->steps = 0;
-		}
-		cards = cards->next;
+		write (1, "\n", 1);
+		i += 32;
 	}
 }
 
-void				battle(t_general *all)
+void			battle(t_general *all)
 {
-	char			octet;
-	int				i;
-
-	while (all->cards) // пока жива хотя бы одна каретка
+	announce_players(all->players, all->n_players);
+	while (all->cards)
 	{
 		if (all->stop_cycle > 0 && all->cycles == all->stop_cycle)
 		{
-			i = 0;
-			while (i < 32) // Распечатка 32 октетов памяти
-			{
-				octet = next(&all->arena);
-				write(1, &(octet), 1);
-			}
+			print_arena(all->arena);
 			return ;
 		}
-		check_cards(all, all->cards, all->arena.map);
-		if ((all->cycles - all->last_check) == all->ctd || all->ctd <= 0) // Прошел 1 cycle_to_die
+		check_cards(all, all->cards);
+		if (all->cycles == 4096)
+		    all = all;
+		if ((all->cycles - all->last_check) == all->ctd
+			|| all->ctd <= 0)
 			check(all);
 	}
-	announce_the_winner(all->last_live);
+	ft_printf("Contestant %d, \"%s\", has won !\n",
+		all->last_live->num, all->last_live->name);
 }
 
-int					main(int argc, char **argv)
-{
-	t_general		all;
+int				main(int argc, char **argv) {
+    t_general all;
 
-	all.players = NULL;
-	all.stop_cycle = 0;
-	all.flag_n = 0;
-	if (argc == 1)
-		return (1);
-	else
-		read_player(argv, &all);
+    all.n_players = 0;
+    all.stop_cycle = 0;
+    all.pl_num = 0;
+    all.flag_v = 0;
+    ft_bzero(all.reserved_nums, sizeof(int) * 4);
+    if (argc == 1)
+        print_help();
+    read_player(argc, argv, &all);
 	prepare_game(&all);
 	battle(&all);
+	del_content(&all);
 	return (0);
 }

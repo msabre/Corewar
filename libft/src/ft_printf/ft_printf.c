@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 22:56:09 by msabre            #+#    #+#             */
-/*   Updated: 2020/02/23 13:40:23 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/06 12:16:50 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ static t_list		*struct_init(const char *format)
 	l->n_count = 0;
 	l->format = format;
 	l->buffer_for_write = NULL;
-	// l->buffer_for_write = (char*)malloc(sizeof(char));
-	// if (!(l->buffer_for_write))
-	// 	return (NULL);
-	// *(l->buffer_for_write) = '\0';
+	l->buffer_for_write = (char*)malloc(sizeof(char));
+	if (!(l->buffer_for_write))
+		return (NULL);
+	*(l->buffer_for_write) = '\0';
 	zero_flags(l);
 	return (l);
 }
@@ -91,7 +91,7 @@ int					ft_printf(const char *format, ...)
 	length = ft_strlen(format);
 	va_start(args, format);
 	if (!(l = struct_init(format)))
-		return (-1);
+		return (0);
 	while (l->i < length)
 	{
 		if (format[l->i] == '%')

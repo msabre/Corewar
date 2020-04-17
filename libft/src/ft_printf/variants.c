@@ -102,7 +102,6 @@ static int			specs_and_flags_fing(va_list args, t_list *l)
 	}
 	else
 		return (unknow_output(l));
-	return (-1);
 }
 
 int					ft_variants(va_list args, t_list *l)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dioux_flags.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 20:02:34 by msabre            #+#    #+#             */
-/*   Updated: 2020/01/23 10:20:37 by msabre           ###   ########.fr       */
+/*   Updated: 2020/03/28 13:37:35 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int						output_di_flags(va_list args, char *type, t_list *l)
 	char				*d_chr;
 
 	d = va_arg(args, long long);
-	(ft_strcmp(type, "h") && d == 32768) ? d = d * (-1) : d;
+	(ft_strcmp(type, "h") == 0 && d == 32768) ? d = d * (-1) : d;
 	if (ft_strcmp("", type) == 0)
 		d_chr = putnbr_di((int)d);
 	else
