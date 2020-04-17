@@ -6,13 +6,13 @@
 #    By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/07 17:34:41 by andrejskobe       #+#    #+#              #
-#    Updated: 2020/04/11 17:37:30 by andrejskobe      ###   ########.fr        #
+#    Updated: 2020/04/17 19:24:51 by andrejskobe      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	corewar
 
-CFLAGS		=	-Wall -Wextra -Werror -fPIC
+CFLAGS		=	-g -Wall -Wextra -Werror
 
 VM_FILES	=	check_cards.c	check.c		cursor.c		execute_op.c	\
 				get_arg_value.c	get_bytes.c	op.c			prepair_game.c	\
@@ -48,23 +48,23 @@ all: $(NAME)
 $(NAME): $(PATH_O)
 	@mkdir -p $(OBJECTS_DIR)
 	@make -C $(LIB_DIR)
-	@gcc -fPIC -o corewar $(PATH_O) $(LIBFT)
+	@gcc $(CFLAGS) -o corewar $(PATH_O) $(LIBFT)
 	@echo "Corewar compiled"
 
 $(OBJECTS_DIR)/%.o: $(DIR_CHFILES)/%.c
 	@mkdir -p $(OBJECTS_DIR)
 	@echo "COMPILING" $<
-	@gcc $(CFLAGS) -fPIC -c $< -o $@
+	@gcc $(CFLAGS) -c $< -o $@
 
 $(OBJECTS_DIR)/%.o: $(DIR_OPFILES)/%.c
 	@mkdir -p $(OBJECTS_DIR)
 	@echo "COMPILING" $<
-	@gcc $(CFLAGS) -fPIC -c $< -o $@
+	@gcc $(CFLAGS) -c $< -o $@
 
 $(OBJECTS_DIR)/%.o: $(DIR_SRC)/%.c
 	@mkdir -p $(OBJECTS_DIR)
 	@echo "COMPILING" $<
-	@gcc $(CFLAGS) -fPIC -c $< -o $@
+	@gcc $(CFLAGS) -c $< -o $@
 
 clean:
 			@rm -rf $(OBJECTS_DIR)

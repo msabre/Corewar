@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/04 11:41:40 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/08 17:04:37 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/17 19:22:19 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static int			valid_arg(unsigned char *arena, t_card *card)
 
 static void			get_types(t_card *card, unsigned char read_byte)
 {
-	static unsigned char arga_types[3] = { T_REG, T_DIR, T_IND};
 	int				shift;
 	int				i;
 

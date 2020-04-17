@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:11:30 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/08 17:08:47 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/17 19:27:14 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ Error output constanst
 # define SMALL_SIZE_CODE "Error: File %s is too small to be a champion\n"
 # define BIG_SIZE_CODE "Error: File has a code more than 682 bytes\n"
 
-//static unsigned char arga_types[3] = { T_REG, T_DIR, T_IND};
+static unsigned char arga_types[3] = { T_REG, T_DIR, T_IND};
 
 typedef struct			s_op
 {
@@ -88,6 +88,7 @@ typedef struct			s_general
 	t_op				*op_tab;
 	int					reserved_nums[4];
 	int					pl_num;
+	int					show_key;
 	int					aff_key;
 	int					n_players;
 	int					current_card_num;

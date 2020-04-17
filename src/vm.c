@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:25:26 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/08 17:32:02 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/17 19:31:45 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ static void		print_arena(unsigned char *arena)
 
 void			battle(t_general *all)
 {
+	char		*empty;
+
 	announce_players(all->players, all->n_players);
 	while (all->cards)
 	{
@@ -79,9 +81,14 @@ void			battle(t_general *all)
 			print_arena(all->arena);
 			return ;
 		}
+		if (all->show_key > 0 && all->cycles % all->show_key == 0)
+		{
+			print_arena(all->arena);
+			write(1, "\n", 1);
+			get_next_line(0, &empty);
+			free(empty);
+		}
 		check_cards(all, all->cards);
-		if (all->cycles == 4096)
-		    all = all;
 		if ((all->cycles - all->last_check) == all->ctd
 			|| all->ctd <= 0)
 			check(all);
@@ -90,17 +97,19 @@ void			battle(t_general *all)
 		all->last_live->num, all->last_live->name);
 }
 
-int				main(int argc, char **argv) {
-    t_general all;
+int				main(int argc, char **argv)
+{
+	t_general all;
 
-    all.n_players = 0;
-    all.stop_cycle = 0;
-    all.pl_num = 0;
-    all.flag_v = 0;
-    ft_bzero(all.reserved_nums, sizeof(int) * 4);
-    if (argc == 1)
-        print_help();
-    read_player(argc, argv, &all);
+	if (argc == 1)
+		print_help();
+	all.n_players = 0;
+	all.stop_cycle = 0;
+	all.pl_num = 0;
+	all.flag_v = 0;
+	all.show_key = 33;
+	ft_bzero(all.reserved_nums, sizeof(int) * 4);
+	read_player(argc, argv, &all);
 	prepare_game(&all);
 	battle(&all);
 	del_content(&all);

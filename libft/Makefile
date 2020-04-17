@@ -6,13 +6,13 @@
 #    By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/14 18:00:46 by msabre            #+#    #+#              #
-#    Updated: 2020/04/06 12:04:17 by andrejskobe      ###   ########.fr        #
+#    Updated: 2020/04/17 19:25:28 by andrejskobe      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = clang
 
-FLAGS = -Wall -Werror -Wextra -fPIC 
+FLAGS = -Wall -Werror -Wextra
 
 NAME = libft.a
 
