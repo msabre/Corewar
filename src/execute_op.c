@@ -66,6 +66,7 @@ static int			valid_arg(unsigned char *arena, t_card *card)
 
 static void			get_types(t_card *card, unsigned char read_byte)
 {
+	unsigned char	arga_types[3] = { T_REG, T_DIR, T_IND};
 	int				shift;
 	int				i;
 

@@ -37,8 +37,6 @@ Error output constanst
 # define SMALL_SIZE_CODE "Error: File %s is too small to be a champion\n"
 # define BIG_SIZE_CODE "Error: File has a code more than 682 bytes\n"
 
-static unsigned char arga_types[3] = { T_REG, T_DIR, T_IND};
-
 typedef struct			s_op
 {
 	char				*name;

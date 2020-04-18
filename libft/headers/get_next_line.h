@@ -20,6 +20,7 @@ typedef	struct		s_gnlist
 	char			*content;
 	int				content_size;
 	struct s_gnlist	*next;
+	struct s_gnlist	*prev;
 }					t_gnlist;
 
 void				ft_lstadd(t_gnlist **alst, t_gnlist *new);

@@ -21,6 +21,7 @@ void			ft_lstadd(t_gnlist **alst, t_gnlist *new)
 	{
 		*alst = new;
 		(*alst)->next = NULL;
+		(*alst)->prev = NULL;
 	}
 	else
 	{
@@ -28,5 +29,6 @@ void			ft_lstadd(t_gnlist **alst, t_gnlist *new)
 			ptr = ptr->next;
 		ptr->next = new;
 		new->next = NULL;
+		new->prev = ptr;
 	}
 }

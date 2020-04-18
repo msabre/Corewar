@@ -36,7 +36,7 @@ void		arena_content_output(t_general *all)
 {
 	char	*empty;
 
-	if (all->cycles == all->stop_cycle)
+	if (all->stop_cycle > 0 && all->cycles == all->stop_cycle)
 	{
 		print_arena(all->arena, all->cn_octets);
 		exit(0);

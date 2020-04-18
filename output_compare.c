@@ -45,4 +45,3 @@ int			main(int argc, char **argv)
 	return (0);
 }
 
-//gcc -g output_compare.c libft/libft.a -o compare

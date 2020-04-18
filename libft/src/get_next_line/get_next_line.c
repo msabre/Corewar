@@ -25,7 +25,7 @@ static t_gnlist		*fd_find(t_gnlist **list, int fd)
 	}
 	if (right_list == NULL)
 	{
-		right_list = (t_gnlist*)malloc(sizeof(t_gnlist));
+		right_list = (t_gnlist*)ft_memalloc(sizeof(t_gnlist));
 		right_list->content = ft_strnew(1);
 		right_list->content_size = fd;
 		ft_lstadd(list, right_list);
@@ -33,23 +33,19 @@ static t_gnlist		*fd_find(t_gnlist **list, int fd)
 	return (right_list);
 }
 
-static int			ft_find_chr_in(char *buffer)
+static void free_main_lst(t_gnlist *list)
 {
-	int				i;
+	t_gnlist	*ptr;
 
-	i = 0;
-	if (!buffer)
-		return (-1);
-	while (buffer[i] != '\0')
+	while (list != NULL)
+		list = list->prev;
+	while (list != NULL)
 	{
-		if (buffer[i] == '\n')
-		{
-			buffer[i] = '\0';
-			return (i);
-		}
-		i++;
+		ptr = list;
+		list = list->next;
+		free(ptr->content);
+		free(ptr);
 	}
-	return (-1);
 }
 
 static int			ft_readline(int fd, t_gnlist **list, char ***line)
@@ -78,6 +74,7 @@ static int			ft_readline(int fd, t_gnlist **list, char ***line)
 		ft_strdel(&(*list)->content);
 		return (1);
 	}
+	free_main_lst(*list);
 	return (0);
 }
 

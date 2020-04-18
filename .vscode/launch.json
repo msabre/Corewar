@@ -5,16 +5,17 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "(lldb) Запустить",
+			"name": "(gdb) Запустить",
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/corewar",
-			"args": ["-dump", "330", "ex.cor"],
+			"args": ["-s", "33", "jumper.cor"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"externalConsole": false,
-			"MIMode": "lldb"
+			"MIMode": "gdb",
+			"setupCommands": []
 		},
 	]
 }

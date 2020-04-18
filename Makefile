@@ -12,7 +12,7 @@
 
 NAME		=	corewar
 
-CFLAGS		=	-g -Wall -Wextra -Werror
+CFLAGS		=	-g -Wall -Wextra -Werror -fPIC
 
 VM_FILES	=	check_cards.c	check.c		cursor.c		execute_op.c	\
 				get_arg_value.c	get_bytes.c	op.c			prepair_game.c	\
