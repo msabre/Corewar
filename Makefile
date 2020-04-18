@@ -6,7 +6,7 @@
 #    By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/07 17:34:41 by andrejskobe       #+#    #+#              #
-#    Updated: 2020/04/17 19:24:51 by andrejskobe      ###   ########.fr        #
+#    Updated: 2020/04/17 20:05:36 by andrejskobe      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CFLAGS		=	-g -Wall -Wextra -Werror
 
 VM_FILES	=	check_cards.c	check.c		cursor.c		execute_op.c	\
 				get_arg_value.c	get_bytes.c	op.c			prepair_game.c	\
-				set_bytes.c		vm.c										\
+				set_bytes.c		vm.c		arena_output.c					\
 
 OP_FILES	=	add.c			aff.c		and.c			fork.c			\
 				ld.c			ldi.c		lfork.c			live.c			\

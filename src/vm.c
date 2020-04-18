@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:25:26 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/17 19:31:45 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/18 15:20:38 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,45 +49,13 @@ void			announce_players(t_player **players, int count)
 	}
 }
 
-static void		print_arena(unsigned char *arena)
-{
-	int			j;
-	int			i;
-
-	i = 0;
-	while (i < MEM_SIZE)
-	{
-		j = 0;
-		ft_printf("0x%.4x : ", i);
-		while (j < 32)
-		{
-			ft_printf("%.2x ", arena[i + j]);
-			j++;
-		}
-		write (1, "\n", 1);
-		i += 32;
-	}
-}
-
 void			battle(t_general *all)
 {
-	char		*empty;
-
 	announce_players(all->players, all->n_players);
 	while (all->cards)
 	{
-		if (all->stop_cycle > 0 && all->cycles == all->stop_cycle)
-		{
-			print_arena(all->arena);
-			return ;
-		}
-		if (all->show_key > 0 && all->cycles % all->show_key == 0)
-		{
-			print_arena(all->arena);
-			write(1, "\n", 1);
-			get_next_line(0, &empty);
-			free(empty);
-		}
+		if (all->stop_cycle > 0 || all->show_key > 0)
+			arena_content_output(all);
 		check_cards(all, all->cards);
 		if ((all->cycles - all->last_check) == all->ctd
 			|| all->ctd <= 0)
@@ -107,7 +75,8 @@ int				main(int argc, char **argv)
 	all.stop_cycle = 0;
 	all.pl_num = 0;
 	all.flag_v = 0;
-	all.show_key = 33;
+	all.show_key = 0;
+	all.cn_octets = 64;
 	ft_bzero(all.reserved_nums, sizeof(int) * 4);
 	read_player(argc, argv, &all);
 	prepare_game(&all);

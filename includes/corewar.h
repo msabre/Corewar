@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:11:30 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/17 19:27:14 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/18 15:13:30 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct			s_general
 	t_card				*cards;
 	t_op				*op_tab;
 	int					reserved_nums[4];
+	int					cn_octets;
 	int					pl_num;
 	int					show_key;
 	int					aff_key;
@@ -102,6 +103,7 @@ typedef struct			s_general
 	int					change_ctd;
 }						t_general;
 
+void					arena_content_output(t_general *all);
 void					prepare_game(t_general *all);
 void					check(t_general *all);
 void					read_player(int argc, char **argv, t_general *all);

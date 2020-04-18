@@ -6,13 +6,13 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 10:19:24 by msabre            #+#    #+#             */
-/*   Updated: 2020/04/04 12:26:12 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/18 15:03:51 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/corewar.h"
 
-void			get_op_links(t_general *all)
+void		get_op_links(t_general *all)
 {
 	all->operations[0] = live;
 	all->operations[1] = load;
@@ -33,9 +33,9 @@ void			get_op_links(t_general *all)
 }
 
 
-void				add_card(t_card **cards, t_player *player, int pos)
+void		add_card(t_card **cards, t_player *player, int pos)
 {
-	t_card			*new;
+	t_card	*new;
 
 	new = (t_card *)ft_memalloc(sizeof(t_card));
 	if (!new)
@@ -49,11 +49,11 @@ void				add_card(t_card **cards, t_player *player, int pos)
 	*cards = new;
 }
 
-static void			put_execode(t_general *all, t_player **players)
+static void	put_execode(t_general *all, t_player **players)
 {
-	int				mem_start;
-	int				shift;
-	int				i;
+	int		mem_start;
+	int		shift;
+	int		i;
 
 	i = 1;
 	set_mem(all->arena, players[0]->exe_code, 0, players[0]->len_exec);
@@ -69,7 +69,7 @@ static void			put_execode(t_general *all, t_player **players)
 	}
 }
 
-void				prepare_game(t_general *all)
+void		prepare_game(t_general *all)
 {
 	all->cards = NULL;
 	ft_bzero(all->arena, MEM_SIZE);

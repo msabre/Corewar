@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 15:49:39 by avenonat          #+#    #+#             */
-/*   Updated: 2020/04/08 17:27:39 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/18 15:14:51 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ static void	get_avails_num(int *avail, t_general *all)
 		j = 0;
 		while (j < all->n_players && all->reserved_nums[j] != z)
 		{
-            if (all->reserved_nums[j] > all->n_players)
-                print_help();
-            j++;
-        }
+			if (all->reserved_nums[j] > all->n_players)
+				print_help();
+			j++;
+		}
 		if (j == all->n_players)
 			avail[k++] = z;
 		z++;

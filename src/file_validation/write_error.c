@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/06 10:15:58 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/06 11:42:41 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/18 15:06:12 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void		print_help()
 	ft_printf("-a      : Prints output from \"aff\" (Default is to hide it)\n");
 	ft_printf("#### TEXT OUTPUT MODE #########################################"
 														"#################\n");
-	ft_printf("-dump N    : Dumps memory after N cycles then exits\n");
+	ft_printf("-dump N   : Dumps 64 octets memory after N cycles then exits\n");
+	ft_printf("-dump32 N : Dumps 32 octets memory after N cycles then exits\n");
     ft_printf("-n N    : assign a sequential number N to the player\n");
 	ft_printf("-s N    : Runs N cycles, dumps memory, pauses, then repeats\n");
 	ft_printf("-v N    : Verbosity levels, can be added together"
