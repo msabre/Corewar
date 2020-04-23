@@ -6,7 +6,7 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/04 09:17:18 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/23 15:14:33 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/23 22:07:17 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ void			live(t_general *all, t_card *card)
 	if (all->flag_v & SHOW_OPERATIONS)
 		log_live(card->num, -value);
 	if (all->flag_v & SHOW_LIVES && player)
-		ft_printf("Player %d (%s) is said to be alive\n", 
+		ft_printf("Player %d (%s) is said to be alive\n",
 			player->num, player->name);
 }

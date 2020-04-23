@@ -6,35 +6,39 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 10:21:10 by msabre            #+#    #+#             */
-/*   Updated: 2020/04/23 15:12:46 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/23 23:06:02 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/corewar.h"
 
+static void			del_card(t_general *all, t_card **prev, t_card **card)
+{
+	t_card			*tmp;
+
+	if (all->flag_v & SHOW_DEATHS)
+		ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n",
+			(*card)->num, all->cycles - (*card)->alive_cycle, all->ctd);
+	tmp = *card;
+	*card = (*card)->next;
+	if (*prev)
+		(*prev)->next = *card;
+	if (tmp == all->cards)
+		all->cards = *card;
+	free(tmp);
+}
+
 static void			del_dies_cards(t_general *all)
 {
 	t_card			*card;
 	t_card			*prev;
-	t_card			*tmp;
 
 	card = all->cards;
 	prev = NULL;
 	while (card)
 	{
 		if ((all->cycles - card->alive_cycle) >= all->ctd || all->ctd <= 0)
-		{
-			if (all->flag_v & SHOW_DEATHS)
-				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n",
-					card->num, all->cycles - card->alive_cycle, all->ctd);
-			tmp = card;
-			card = card->next;
-			if (prev)
-				prev->next = card;
-			if (tmp == all->cards)
-				all->cards = card;
-			free(tmp);
-		}
+			del_card(all, &prev, &card);
 		else
 		{
 			prev = card;

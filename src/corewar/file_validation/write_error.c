@@ -6,13 +6,13 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/06 10:15:58 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/23 15:14:33 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/23 22:23:31 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/corewar.h"
 
-void		print_help()
+void	print_help(void)
 {
 	ft_printf("Usage: ./corewar [-dump N -s N -v N -n N]"
 												"[-a] <champion1.cor> <...>\n");
@@ -21,7 +21,7 @@ void		print_help()
 														"#################\n");
 	ft_printf("-dump N   : Dumps 64 octets memory after N cycles then exits\n");
 	ft_printf("-dump32 N : Dumps 32 octets memory after N cycles then exits\n");
-    ft_printf("-n N    : assign a sequential number N to the player\n");
+	ft_printf("-n N    : assign a sequential number N to the player\n");
 	ft_printf("-s N    : Runs N cycles, dumps memory, pauses, then repeats\n");
 	ft_printf("-v N    : Verbosity levels, can be added together"
 												"to enable several\n");
@@ -34,11 +34,11 @@ void		print_help()
 	ft_printf("              - 16 : Show PC movements (Except for jumps)\n");
 	ft_printf("#####################################################"
 										"###########################\n");
-	exit (0);
+	exit(0);
 }
 
 void	write_error(char *str)
 {
 	ft_putendl_fd(str, 2);
-	exit (0);
+	exit(0);
 }

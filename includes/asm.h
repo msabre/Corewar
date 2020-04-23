@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avenonat <avenonat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 15:22:03 by avenonat          #+#    #+#             */
-/*   Updated: 2020/04/18 17:50:58 by almazg           ###   ########.fr       */
+/*   Updated: 2020/04/23 23:22:53 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,21 @@ typedef struct			s_file
 	char				comment[COMMENT_LENGTH];
 	int					a;
 	char				zero[T_IND];
-	int 				fd;
-	int 				line_byte;
-	int 				text;
-	int 				n;
-	int 				c;
+	int					fd;
+	int					line_byte;
+	int					text;
+	int					n;
+	int					c;
 }						t_file;
 
-typedef struct 			s_exec
+typedef struct			s_exec
 {
-	int 				inst;
-	int 				dir_size;
-	char		 		*kta;
+	int					inst;
+	int					dir_size;
+	char				*kta;
 	unsigned char		ta;
-	int 				line_byte;
-	int 				n_bytes;
+	int					line_byte;
+	int					n_bytes;
 	char				*a1;
 	int					ta1;
 	char				*a2;
@@ -62,12 +62,13 @@ void					check_name(char *line, t_file *ssl);
 void					check_comment(char *line, t_file *ssl);
 t_exec					*connecting_people(char *line, t_file *ssl);
 void					compare(t_file *ssl, char *line, int j, t_exec *com);
-void 					compare_2(t_file *ssl, char *line, int j, t_exec *com);
+void					compare_2(t_file *ssl, char *line, int j, t_exec *com);
 void					live(t_file *ssl, char *line, t_exec *com);
 void					ld(t_file *ssl, char *line, t_exec *com);
 void					including_magic(int text);
 void					write_error(char *str);
-void					take_label(char *line, t_file *ssl, t_label **list, t_exec *co);
+void					take_label(char *line, t_file *ssl,
+						t_label **list, t_exec *co);
 t_label					*cnl(char *name, int byte_c);
 void					add_label(t_label **list, t_label *new);
 void					take_arg1(char *line, t_file *ssl, t_exec *com);
@@ -104,39 +105,65 @@ void					free_label(t_label *list);
 void					free_exec(t_exec *com);
 void					free_t_file(t_file *ssl);
 void					line_to_write(t_exec **com, t_file *ssl);
-void					line_to_write2(int k, t_file *ssl, int i, unsigned char *s);
+void					line_to_write2(int k, t_file *ssl, int i,
+						unsigned char *s);
 void					including_size(t_file *ssl);
 void					name_comment(char *line, t_file *ssl);
-void 					rename_f(int argc, char **argv, t_file **sl);
-void					choose_n_c(char *line, t_file *ssl, char *n, char *c);
+void					rename_f(int argc, char **argv, t_file **sl);
+void					choose_n_c(char *line, t_file *ssl,
+						char *n, char *c);
 void					c_data(t_file *ssl, t_exec *com, t_label *list);
 int						line_part(t_exec *com, unsigned char *s, int i, int n);
 int						order_arg(t_exec *com, char **a, int ta, int n);
-t_exec					*take_opera(t_file *ssl, char *line, int i, t_exec *com);
-void					take_label2(char *line, t_file *ssl, int i, t_label **list);
+t_exec					*take_opera(t_file *ssl, char *line, int i,
+						t_exec *com);
+void					take_label2(char *line, t_file *ssl, int i,
+						t_label **list);
 void					check_comment2(char *line, t_file *ssl);
 int						check_comment3(char *line, t_file *ssl, int j, char *s);
 void					check_name2(char *line, t_file *ssl);
 int						check_name3(char *line, t_file *ssl, int j, char *s);
-void					take_arg1_r(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg1_pr(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg1_d(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg1_n(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg1_neg(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg1_dv(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg1_pr_neg(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg2_r(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg2_pr(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg2_neg(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg2_d(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg2_n(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg2_dv(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg2_pr_neg(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg3_r(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg3_pr(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg3_pr_neg(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg3_neg(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg3_d(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg3_n(char *line, t_file *ssl, t_exec *com, int i);
-void					take_arg3_dv(char *line, t_file *ssl, t_exec *com, int i);
+void					take_arg1_r(char *line, t_file *ssl, t_exec *com,
+						int i);
+void					take_arg1_pr(char *line, t_file *ssl, t_exec *com,
+						int i);
+void					take_arg1_d(char *line, t_file *ssl, t_exec *com,
+						int i);
+void					take_arg1_n(char *line, t_file *ssl,
+						t_exec *com, int i);
+void					take_arg1_neg(char *line, t_file *ssl,
+						t_exec *com, int i);
+void					take_arg1_dv(char *line, t_file *ssl,
+						t_exec *com, int i);
+void					take_arg1_pr_neg(char *line, t_file *ssl,
+						t_exec *com, int i);
+void					take_arg2_r(char *line, t_file *ssl,
+						t_exec *com, int i);
+void					take_arg2_pr(char *line, t_file *ssl,
+						t_exec *com, int i);
+void					take_arg2_neg(char *line, t_file *ssl,
+						t_exec *com, int i);
+void					take_arg2_d(char *line, t_file *ssl,
+						t_exec *com, int i);
+void					take_arg2_n(char *line, t_file *ssl,
+						t_exec *com, int i);
+void					take_arg2_dv(char *line, t_file *ssl,
+						t_exec *com, int i);
+void					take_arg2_pr_neg(char *line, t_file *ssl,
+						t_exec *com, int i);
+void					take_arg3_r(char *line, t_file *ssl,
+						t_exec *com, int i);
+void					take_arg3_pr(char *line, t_file *ssl,
+						t_exec *com, int i);
+void					take_arg3_pr_neg(char *line, t_file *ssl,
+						t_exec *com, int i);
+void					take_arg3_neg(char *line, t_file *ssl,
+						t_exec *com, int i);
+void					take_arg3_d(char *line, t_file *ssl,
+						t_exec *com, int i);
+void					take_arg3_n(char *line, t_file *ssl,
+						t_exec *com, int i);
+void					take_arg3_dv(char *line, t_file *ssl,
+						t_exec *com, int i);
+
 #endif

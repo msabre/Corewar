@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+         #
+#    By: msabre <msabre@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/07 17:34:41 by andrejskobe       #+#    #+#              #
-#    Updated: 2020/04/23 10:52:53 by andrejskobe      ###   ########.fr        #
+#    Updated: 2020/04/24 00:01:22 by msabre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,20 +83,17 @@ all: $(LIBFT) $(OBJECTS_DIR) $(OBJ_COR_DIR) $(OBJ_ASM_DIR) $(ASM) $(COREWAR)
 
 $(LIBFT):
 	@make -C libft
-	@echo "...libft compiled..."
-	@echo
+	@echo "\\n\033[32;1m...libft compiled...\033[0m \\n"
 	@sleep 1
 
 $(COREWAR): $(COR_PATH_O)
 	@gcc $(CFLAGS) -o $(COREWAR) $(COR_PATH_O) $(LIBFT)
-	@echo "...corewar compiled..."
-	@echo
+	@echo "\\n\033[32;1m...corewar compiled...\033[0m \\n"
 	@sleep 1
 
 $(ASM): $(ASM_PATH_O)
 	@gcc $(CFLAGS) -o $(ASM) $(ASM_PATH_O) $(LIBFT)
-	@echo "...asm compiled..."
-	@echo
+	@echo "\\n\033[32;1m...asm compiled...\033[0m \\n"
 	@sleep 1
 
 $(OBJECTS_DIR):
@@ -109,30 +106,32 @@ $(OBJ_ASM_DIR):
 	@mkdir -p $(OBJECTS_DIR)/$(OBJ_ASM_DIR)
 
 $(OBJECTS_DIR)/$(OBJ_COR_DIR)/%.o: $(DIR_CHFILES)/%.c
-	@echo "compiling corewar obj : " $<
+	@echo "compiling corewar (validation part) : " $<
 	@gcc $(CFLAGS) -c $< -o $@
 
 $(OBJECTS_DIR)/$(OBJ_COR_DIR)/%.o: $(DIR_OPFILES)/%.c
-	@echo "compiling corewar obj : " $<
+	@echo "compiling corewar (operations) : " $<
 	@gcc $(CFLAGS) -c $< -o $@
 
 $(OBJECTS_DIR)/$(OBJ_COR_DIR)/%.o: $(DIR_COREWAR)/%.c
-	@echo "compiling corewar obj : " $<
+	@echo "compiling corewar : " $<
 	@gcc $(CFLAGS) -c $< -o $@
 
 $(OBJECTS_DIR)/$(OBJ_ASM_DIR)/%.o: $(DIR_ASM)/%.c
-	@echo "compiling asm obj : " $<
+	@echo "compiling asm : " $<
 	@gcc $(CFLAGS) -c $< -o $@
 
 clean:
 	@rm -rf $(OBJECTS_DIR)
-	@echo "deleting corewar object files...✔"
+	@echo "\\n\033[32;1m...deleting corewar object files...\033[0m \\n"
+	@echo "\\n\033[32;1m...deleting asm object files...\033[0m \\n"
 	@make -C $(LIB_DIR) clean
 
 fclean:	clean
 	@rm -rf $(COREWAR)
 	@rm -rf $(ASM)
-	@echo "deleting corewar executable file...✔"
+	@echo "\\n\033[32;1m...deleting corewar executable file...\033[0m \\n"
+	@echo "\\n\033[32;1m...deleting asm executable file...\033[0m \\n"
 	@make -C $(LIB_DIR) fclean
 
 re:			fclean all

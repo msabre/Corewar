@@ -6,7 +6,7 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/17 19:38:14 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/23 15:12:09 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/23 23:05:35 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	print_arena(unsigned char *arena, int octets)
 			ft_printf("%.2x ", arena[i + j]);
 			j++;
 		}
-		write (1, "\n", 1);
+		write(1, "\n", 1);
 		i += octets;
 	}
 }

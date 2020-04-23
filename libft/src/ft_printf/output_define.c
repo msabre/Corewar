@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output_define.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
+/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 20:35:24 by msabre            #+#    #+#             */
-/*   Updated: 2020/04/06 10:46:14 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/23 23:08:13 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ char			*flag_inicializatian(t_list *l)
 		count_space++;
 	else if (l->sp > 0 && l->precision && l->length >= 0)
 		l->sp = 0;
-	if (!(result = (char *)ft_memalloc(sizeof(char) * (l->out_length + count_space
-		+ l->dop_count + l->fplus + 1))))
+	if (!(result = (char *)ft_memalloc(sizeof(char)
+		* (l->out_length + count_space + l->dop_count + l->fplus + 1))))
 	{
 		free(l->out);
 		return (NULL);

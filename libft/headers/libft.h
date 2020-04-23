@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
+/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 21:05:20 by msabre            #+#    #+#             */
-/*   Updated: 2020/03/10 13:15:32 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/23 23:09:15 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,8 @@ int						skip_word(char *str, int in, int count);
 void					lzero(t_arraylist *arraylist);
 int						getmem(t_arraylist *arraylist);
 void					del_arr(t_arraylist *arraylist);
-int						add_to_tab_double_lvl(t_arraylist *arraylist, void *value);
+int						add_to_tab_double_lvl(t_arraylist *arraylist,
+						void *value);
 void					*ft_memdup(void *mem, int count);
 
 #endif

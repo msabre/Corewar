@@ -6,7 +6,7 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 20:36:55 by msabre            #+#    #+#             */
-/*   Updated: 2019/11/26 17:58:08 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/23 23:09:36 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ int			get_buffer(t_list *l, char *new_str)
 	ptr = l->buffer_for_write;
 	if (ptr)
 	{
-        l->buffer_for_write = ft_strjoin(ptr, new_str);
-        free(ptr);
-    }
+		l->buffer_for_write = ft_strjoin(ptr, new_str);
+		free(ptr);
+	}
 	else
-        l->buffer_for_write = ft_strdup(new_str);
+		l->buffer_for_write = ft_strdup(new_str);
 	(ft_strcmp(new_str, "%") != 0) ? free(new_str) : 1;
 	if (!(l->buffer_for_write))
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/04 09:50:22 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/23 15:14:33 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/23 22:09:46 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ void				champ_comment(int fd, t_player *player)
 
 void				check_zeros(int fd)
 {
-	int 			text;
-	unsigned int 	zero;
+	int				text;
+	unsigned int	zero;
 	unsigned char	buffer[T_IND + 1];
-	int 			i;
+	int				i;
 
 	i = 0;
 	text = read(fd, &buffer, T_IND);
@@ -73,7 +73,7 @@ void				check_champ_code(int fd, t_player *player)
 	if (!player->exe_code)
 		exit(0);
 	i = 0;
-	while(i < player->len_exec)
+	while (i < player->len_exec)
 	{
 		player->exe_code[i] |= buffer[i];
 		i++;
@@ -85,7 +85,7 @@ void				check_magic(int fd)
 	int				text;
 	unsigned int	magic;
 	unsigned char	buffer[T_IND + 1];
-	int 			i;
+	int				i;
 
 	i = 0;
 	magic = 0;
@@ -108,7 +108,7 @@ void				check_name(int fd, t_player *player)
 {
 	int				text;
 	unsigned char	buffer[PROG_NAME_LENGTH + 1];
-	int 			i;
+	int				i;
 
 	text = read(fd, &buffer, PROG_NAME_LENGTH);
 	if (text == -1)

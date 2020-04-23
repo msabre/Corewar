@@ -6,7 +6,7 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 20:23:51 by avenonat          #+#    #+#             */
-/*   Updated: 2020/04/23 15:14:33 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/23 22:13:58 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_player		*init_player(int num)
 	t_player *ssl;
 
 	if (!(ssl = (t_player *)ft_memalloc(sizeof(t_player))))
-		exit (0);
+		exit(0);
 	ssl->num = num;
 	return (ssl);
 }
@@ -45,9 +45,9 @@ static void			length_exec_code(int fd, t_player *player)
 		write_error(BIG_SIZE_CODE);
 }
 
-void			valid_check(int fd, int order_num, t_general *all)
+void				valid_check(int fd, int order_num, t_general *all)
 {
-	t_player	*player;
+	t_player		*player;
 
 	player = init_player(all->pl_num);
 	check_magic(fd);

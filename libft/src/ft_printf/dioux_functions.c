@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dioux_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
+/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 19:58:50 by msabre            #+#    #+#             */
-/*   Updated: 2020/03/28 13:15:08 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/23 23:08:56 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

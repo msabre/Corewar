@@ -6,7 +6,7 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:11:30 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/23 15:20:42 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/23 23:43:23 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,11 @@
 
 # define ZEROS 00000000
 
-/*
--v flag arguments
-*/
-
 # define SHOW_LIVES 1
 # define SHOW_CYCLES 2
 # define SHOW_OPERATIONS 4
 # define SHOW_DEATHS 8
 # define SHOW_CURSOR_MOVE 16
-
-/*
-Error output constanst
-*/
 
 # define READ_ERROR "Error: Can't read this file\n"
 # define HEADER_ERROR "Error: File has an invalid header\n"
@@ -119,15 +111,18 @@ unsigned char			get_char(unsigned char *arena, int num);
 int						get_fourbytes(unsigned char *arena, int start);
 int						get_twobytes(unsigned char *arena, int start);
 int						next(unsigned char *arena);
-void					set_byte(unsigned char *arena, unsigned char byte, int num);
+void					set_byte(unsigned char *arena, unsigned char byte,
+						int num);
 void					set_reg(unsigned char *arena, int reg, int adress);
-int						set_mem(unsigned char *arena, unsigned char *mem, int num, int size);
+int						set_mem(unsigned char *arena, unsigned char *mem,
+						int num, int size);
 void					get_op_tab(t_general *all);
 t_player				*get_player(t_player *players, int num);
 void					check_cards(t_general *all, t_card *cards);
 void					check_args_and_exe_op(t_general *all, t_card *card);
 int						count_skiplen(t_card *card, int desire_arg);
-int						get_arg_value(unsigned char *arena, t_card *card, int num, bool mod);
+int						get_arg_value(unsigned char *arena, t_card *card,
+						int num, bool mod);
 int						get_nreg(unsigned char *arena, t_card *card);
 int						cursor_to(int go_to);
 int						cursor_move(t_card *card);

@@ -6,13 +6,13 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 17:56:09 by msabre            #+#    #+#             */
-/*   Updated: 2019/12/27 18:17:50 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/23 23:06:42 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/libft.h"
 
-static char			**malloc_double_mass(char const *str, char c)
+static char		**malloc_double_mass(char const *str, char c)
 {
 	char		**words;
 	int			high_val;

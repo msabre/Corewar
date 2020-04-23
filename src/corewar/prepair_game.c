@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/05 10:19:24 by msabre            #+#    #+#             */
-/*   Updated: 2020/04/23 15:13:07 by msabre           ###   ########.fr       */
+/*   Created: 2020/04/23 21:31:43 by andrejskobe       #+#    #+#             */
+/*   Updated: 2020/04/23 22:06:54 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void		get_op_links(t_general *all)
 	all->operations[14] = lfork;
 	all->operations[15] = aff;
 }
-
 
 void		add_card(t_card **cards, t_player *player, int pos)
 {

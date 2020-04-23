@@ -6,13 +6,13 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:10:23 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/23 15:13:04 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/23 22:35:02 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/corewar.h"
 
-t_op	op_tab[17] =
+t_op	g_op_tab[17] =
 {
 	{"live", 1, {T_DIR}, 1, 10, "alive", 0, 0, 4},
 	{"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 1, 4},
@@ -41,5 +41,5 @@ t_op	op_tab[17] =
 
 void			get_op_tab(t_general *all)
 {
-	all->op_tab = op_tab;
+	all->op_tab = g_op_tab;
 }

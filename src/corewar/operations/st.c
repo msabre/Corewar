@@ -6,7 +6,7 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/04 09:19:14 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/23 15:14:33 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/23 22:08:35 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void			st(t_general *all, t_card *card)
 	r = get_nreg(all->arena, card);
 	if (card->args[1] == T_REG)
 	{
-	 	value = get_nreg(all->arena, card);
+		value = get_nreg(all->arena, card);
 		card->regs[value] = card->regs[r];
 		if (all->flag_v & SHOW_OPERATIONS)
 			log_st(card->num, r + 1, value + 1);

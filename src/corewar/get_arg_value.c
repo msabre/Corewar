@@ -6,7 +6,7 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 11:11:07 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/23 15:12:58 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/23 22:10:53 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	get_point_aress(unsigned char *arena, t_card *card, bool mod)
 	adress = (mod) ? adress % IDX_MOD : adress;
 	adress = cursor_to(card->cursor + adress);
 	card->steps += IND_SIZE;
-	return adress;
+	return (adress);
 }
 
 int			get_arg_value(unsigned char *arena,

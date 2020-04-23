@@ -6,7 +6,7 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/04 10:14:10 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/23 15:13:33 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/23 22:12:03 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int		check_flag(char *n, char *argv_flag, t_general *all)
 		all->pl_num = flag;
 		all->reserved_nums[pos++] = flag;
 	}
-	else if (ft_strcmp("-dump", argv_flag) == 0 
+	else if (ft_strcmp("-dump", argv_flag) == 0
 		|| ft_strcmp("-dump32", argv_flag) == 0)
 	{
 		all->stop_cycle = flag;
@@ -53,7 +53,8 @@ int				is_flags(int i, int argc, char **argv, t_general *all)
 	if (ft_strcmp("-a", argv[i]) == 0)
 		return (all->aff_key = 1);
 	else if (ft_strcmp("-n", argv[i]) == 0 || ft_strcmp("-s", argv[i]) == 0
-		|| ft_strcmp("-dump", argv[i]) == 0 || ft_strcmp("-dump32", argv[i]) == 0
+		|| ft_strcmp("-dump", argv[i]) == 0
+		|| ft_strcmp("-dump32", argv[i]) == 0
 		|| ft_strcmp("-v", argv[i]) == 0)
 	{
 		if (!hasnext(i, argc))

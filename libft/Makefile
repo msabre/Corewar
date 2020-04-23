@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+         #
+#    By: msabre <msabre@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/14 18:00:46 by msabre            #+#    #+#              #
-#    Updated: 2020/04/23 10:40:21 by andrejskobe      ###   ########.fr        #
+#    Updated: 2020/04/23 23:53:25 by msabre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,15 +49,15 @@ $(NAME): $(PATH_O)
 	@ranlib $(NAME)
 
 $(DIR_O)/%.o: ./src/libft/%.c
-	@echo "compiling libft obj : " $<
+	@echo "compiling libft : " $<
 	@$(CC) $(FLAGS) -I $(HEAD) -c $< -o $@;
 
 $(DIR_O)/%.o: ./src/ft_printf/%.c
-	@echo "compiling libft obj : " $<
+	@echo "compiling libft (ft_printf) : " $<
 	@$(CC) $(FLAGS) -I $(HEAD) -c $< -o $@;
 
 $(DIR_O)/%.o: ./src/get_next_line/%.c
-	@echo "compiling libft obj : "$<
+	@echo "compiling libft (get_next_line) : "$<
 	@$(CC) $(FLAGS) -I $(HEAD) -c $< -o $@;
 
 clean:

@@ -6,7 +6,7 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 15:49:39 by avenonat          #+#    #+#             */
-/*   Updated: 2020/04/23 15:14:11 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/23 22:11:29 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ static void		sort_players(t_player **players, int size)
 	}
 }
 
-static void	get_avails_num(int *avail, t_general *all)
+static void		get_avails_num(int *avail, t_general *all)
 {
-	int		j;
-	int		z;
-	int		k;
+	int			j;
+	int			z;
+	int			k;
 
 	k = 0;
 	z = 1;
@@ -59,11 +59,11 @@ static void	get_avails_num(int *avail, t_general *all)
 	}
 }
 
-static void	assign_numbers(t_general *all)
+static void		assign_numbers(t_general *all)
 {
-	int		avail_nums[4];
-	int		i;
-	int		j;
+	int			avail_nums[4];
+	int			i;
+	int			j;
 
 	i = 0;
 	j = 0;
@@ -78,9 +78,9 @@ static void	assign_numbers(t_general *all)
 	sort_players(all->players, all->n_players);
 }
 
-static bool	is_cor_file(char *argv)
+static bool		is_cor_file(char *argv)
 {
-	int		j;
+	int			j;
 
 	j = ft_strlen(argv);
 	return (argv[j - 4] == '.'
@@ -89,7 +89,7 @@ static bool	is_cor_file(char *argv)
 			&& argv[j - 1] == 'r');
 }
 
-void		read_player(int argc, char **argv, t_general *all)
+void			read_player(int argc, char **argv, t_general *all)
 {
 	int fd;
 	int i;

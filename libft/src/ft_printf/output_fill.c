@@ -6,7 +6,7 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 20:33:40 by msabre            #+#    #+#             */
-/*   Updated: 2019/10/30 22:43:30 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/23 23:07:55 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,5 @@ int							fill_output(t_list *l, char *result)
 	i = position_after_outadd(l, minus, i);
 	while (l->out[j])
 		result[i++] = (l)->out[j++];
-    result[i] = '\0';
 	return (!(get_buffer(l, result))) ? -1 : 1;
 }
