@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dioux_transitions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 19:50:45 by msabre            #+#    #+#             */
-/*   Updated: 2019/11/19 19:09:04 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/23 10:29:39 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/17 19:38:14 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/23 08:52:50 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/23 10:56:58 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void		arena_content_output(t_general *all)
 {
 	char	*empty;
 
-	if (all->cycles == all->stop_cycle)
+	if (all->stop_cycle > 0 && all->cycles == all->stop_cycle)
 	{
 		print_arena(all->arena, all->cn_octets);
 		exit(0);

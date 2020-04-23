@@ -6,7 +6,7 @@
 #    By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/07 17:34:41 by andrejskobe       #+#    #+#              #
-#    Updated: 2020/04/23 10:12:32 by andrejskobe      ###   ########.fr        #
+#    Updated: 2020/04/23 10:52:53 by andrejskobe      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,20 @@ all: $(LIBFT) $(OBJECTS_DIR) $(OBJ_COR_DIR) $(OBJ_ASM_DIR) $(ASM) $(COREWAR)
 
 $(LIBFT):
 	@make -C libft
-	@echo "libft compiled"
+	@echo "...libft compiled..."
+	@echo
+	@sleep 1
+
+$(COREWAR): $(COR_PATH_O)
+	@gcc $(CFLAGS) -o $(COREWAR) $(COR_PATH_O) $(LIBFT)
+	@echo "...corewar compiled..."
+	@echo
+	@sleep 1
+
+$(ASM): $(ASM_PATH_O)
+	@gcc $(CFLAGS) -o $(ASM) $(ASM_PATH_O) $(LIBFT)
+	@echo "...asm compiled..."
+	@echo
 	@sleep 1
 
 $(OBJECTS_DIR):
@@ -94,16 +107,6 @@ $(OBJ_COR_DIR):
 
 $(OBJ_ASM_DIR):
 	@mkdir -p $(OBJECTS_DIR)/$(OBJ_ASM_DIR)
-
-$(COREWAR): $(COR_PATH_O)
-	@gcc $(CFLAGS) -o asm $(COR_PATH_O) $(LIBFT)
-	@echo "Corewar compiled"
-	@sleep 1
-	
-$(ASM): $(ASM_PATH_O)
-	@gcc $(CFLAGS) -o asm $(ASM_PATH_O) $(LIBFT)
-	@echo "asm compiled"
-	@sleep 1
 
 $(OBJECTS_DIR)/$(OBJ_COR_DIR)/%.o: $(DIR_CHFILES)/%.c
 	@echo "compiling corewar obj : " $<
@@ -123,12 +126,13 @@ $(OBJECTS_DIR)/$(OBJ_ASM_DIR)/%.o: $(DIR_ASM)/%.c
 
 clean:
 	@rm -rf $(OBJECTS_DIR)
-	@echo "$(RED)deleting corewar object files...$(NC) ✔"
+	@echo "deleting corewar object files...✔"
 	@make -C $(LIB_DIR) clean
 
 fclean:	clean
-	@rm -rf $(NAME)
-	@echo "$(RED)deleting corewar executable file...$(NC) ✔"
+	@rm -rf $(COREWAR)
+	@rm -rf $(ASM)
+	@echo "deleting corewar executable file...✔"
 	@make -C $(LIB_DIR) fclean
 
 re:			fclean all

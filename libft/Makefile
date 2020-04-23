@@ -6,7 +6,7 @@
 #    By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/14 18:00:46 by msabre            #+#    #+#              #
-#    Updated: 2020/04/23 10:15:52 by andrejskobe      ###   ########.fr        #
+#    Updated: 2020/04/23 10:40:21 by andrejskobe      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,6 @@ all: $(DIR_O) $(NAME)
 
 $(DIR_O):
 	@mkdir -p $(DIR_O)
-	@echo "was created"
 
 $(NAME): $(PATH_O)
 	@ar rc $(NAME) $(PATH_O)
