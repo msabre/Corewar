@@ -6,11 +6,13 @@
 #    By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/07 17:34:41 by andrejskobe       #+#    #+#              #
-#    Updated: 2020/04/17 20:05:36 by andrejskobe      ###   ########.fr        #
+#    Updated: 2020/04/23 10:12:32 by andrejskobe      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		=	corewar
+COREWAR		=	corewar
+
+ASM			=	asm
 
 CFLAGS		=	-g -Wall -Wextra -Werror -fPIC
 
@@ -26,53 +28,107 @@ OP_FILES	=	add.c			aff.c		and.c			fork.c			\
 CHECK_FILES	=	check_content.c	flag_init.c	read_player.c	valid_check.c	\
 				write_error.c												\
 
-DIR_SRC		=	./src
+ASM_FILES	=	asm.c init_ssl.c including_magic.c write_error.c			\
+				compare.c compare_2.c init_exec.c skip_probel.c				\
+				is_whitespace.c no_comment.c add_list.c is_limit.c			\
+				connecting_people.c is_registr.c add_label.c take_label.c cnl.c \
+				take_arg1.c no_separator.c take_arg2.c inst_aff.c			\
+				inst_lfork.c inst_fork.c inst_live.c inst_zjmp.c			\
+				inst_lld.c inst_ld.c inst_st.c inst_add.c					\
+				take_arg3.c inst_sub.c inst_and.c inst_or.c					\
+				inst_xor.c inst_ldi.c inst_lldi.c inst_sti.c				\
+				add_comand.c label_change.c label_search1.c label_search2.c	\
+				label_search3.c skolkovo.c check_name.c check_comment.c		\
+				arg_add.c kod_type_arg.c add_kta.c free_label.c free_exec.c	\
+				free_tfile.c line_to_write.c including_size.c name_comment.c\
+				rename_f.c choose_n_c.c c_data.c line_part.c				\
+				order_arg.c line_to_write2.c take_opera.c take_label2.c		\
+				check_comment2.c check_comment3.c check_name2.c check_name3.c\
+				take_arg1_r.c take_arg1_pr.c take_arg1_d.c take_arg1_n.c	\
+				take_arg1_neg.c take_arg1_dv.c take_arg1_pr_neg.c			\
+				take_arg2_pr.c take_arg2_r.c take_arg2_d.c					\
+				take_arg2_dv.c take_arg2_neg.c take_arg2_n.c take_arg2pr_neg.c\
+				take_arg3_r.c take_arg3_pr.c take_arg3_neg.c take_arg3_d.c	\
+				take_arg3_n.c take_arg3_pr_neg.c take_arg3_dv.c				\
 
-DIR_CHFILES	=	$(DIR_SRC)/file_validation
+DIR_ASM		=	src/asm
 
-DIR_OPFILES	=	$(DIR_SRC)/operations
+DIR_COREWAR	=	src/corewar
+
+DIR_CHFILES	=	$(DIR_COREWAR)/file_validation
+
+DIR_OPFILES	=	$(DIR_COREWAR)/operations
 
 OBJECTS_DIR	=	objects
 
-P_FILES		=	$(VM_FILES:.c=.o) $(OP_FILES:.c=.o) $(CHECK_FILES:.c=.o)
+OBJ_COR_DIR	=	corewar_objects
 
-PATH_O		=	$(addprefix $(OBJECTS_DIR)/, $(P_FILES))
+OBJ_ASM_DIR	=	asm_objects
+
+O_CORE		=	$(VM_FILES:.c=.o) $(OP_FILES:.c=.o) $(CHECK_FILES:.c=.o)
+
+O_ASM		=	$(ASM_FILES:.c=.o)
+
+COR_PATH_O	=	$(addprefix $(OBJECTS_DIR)/$(OBJ_COR_DIR)/, $(O_CORE))
+
+ASM_PATH_O	=	$(addprefix $(OBJECTS_DIR)/$(OBJ_ASM_DIR)/, $(O_ASM))
 
 LIB_DIR		=	libft/
+
 LIBFT		=	$(LIB_DIR)libft.a
 
 .PHONY: all clean fclean re
 
-all: $(NAME)
+all: $(LIBFT) $(OBJECTS_DIR) $(OBJ_COR_DIR) $(OBJ_ASM_DIR) $(ASM) $(COREWAR)
 
-$(NAME): $(PATH_O)
+$(LIBFT):
+	@make -C libft
+	@echo "libft compiled"
+	@sleep 1
+
+$(OBJECTS_DIR):
 	@mkdir -p $(OBJECTS_DIR)
-	@make -C $(LIB_DIR)
-	@gcc $(CFLAGS) -o corewar $(PATH_O) $(LIBFT)
+
+$(OBJ_COR_DIR):
+	@mkdir -p $(OBJECTS_DIR)/$(OBJ_COR_DIR)
+
+$(OBJ_ASM_DIR):
+	@mkdir -p $(OBJECTS_DIR)/$(OBJ_ASM_DIR)
+
+$(COREWAR): $(COR_PATH_O)
+	@gcc $(CFLAGS) -o asm $(COR_PATH_O) $(LIBFT)
 	@echo "Corewar compiled"
+	@sleep 1
+	
+$(ASM): $(ASM_PATH_O)
+	@gcc $(CFLAGS) -o asm $(ASM_PATH_O) $(LIBFT)
+	@echo "asm compiled"
+	@sleep 1
 
-$(OBJECTS_DIR)/%.o: $(DIR_CHFILES)/%.c
-	@mkdir -p $(OBJECTS_DIR)
-	@echo "COMPILING" $<
+$(OBJECTS_DIR)/$(OBJ_COR_DIR)/%.o: $(DIR_CHFILES)/%.c
+	@echo "compiling corewar obj : " $<
 	@gcc $(CFLAGS) -c $< -o $@
 
-$(OBJECTS_DIR)/%.o: $(DIR_OPFILES)/%.c
-	@mkdir -p $(OBJECTS_DIR)
-	@echo "COMPILING" $<
+$(OBJECTS_DIR)/$(OBJ_COR_DIR)/%.o: $(DIR_OPFILES)/%.c
+	@echo "compiling corewar obj : " $<
 	@gcc $(CFLAGS) -c $< -o $@
 
-$(OBJECTS_DIR)/%.o: $(DIR_SRC)/%.c
-	@mkdir -p $(OBJECTS_DIR)
-	@echo "COMPILING" $<
+$(OBJECTS_DIR)/$(OBJ_COR_DIR)/%.o: $(DIR_COREWAR)/%.c
+	@echo "compiling corewar obj : " $<
+	@gcc $(CFLAGS) -c $< -o $@
+
+$(OBJECTS_DIR)/$(OBJ_ASM_DIR)/%.o: $(DIR_ASM)/%.c
+	@echo "compiling asm obj : " $<
 	@gcc $(CFLAGS) -c $< -o $@
 
 clean:
-			@rm -rf $(OBJECTS_DIR)
-			@echo "$(RED)deleting corewar object files...$(NC) ✔"
-			@make -C $(LIB_DIR) clean
+	@rm -rf $(OBJECTS_DIR)
+	@echo "$(RED)deleting corewar object files...$(NC) ✔"
+	@make -C $(LIB_DIR) clean
 
-fclean:		clean
-			@echo "$(RED)deleting corewar executable file...$(NC) ✔"
-			@rm -rf $(NAME)
+fclean:	clean
+	@rm -rf $(NAME)
+	@echo "$(RED)deleting corewar executable file...$(NC) ✔"
+	@make -C $(LIB_DIR) fclean
 
 re:			fclean all

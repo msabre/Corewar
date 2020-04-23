@@ -6,7 +6,7 @@
 /*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 17:14:40 by msabre            #+#    #+#             */
-/*   Updated: 2020/03/23 12:21:58 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/18 16:52:27 by andrejskobe      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static t_gnlist		*fd_find(t_gnlist **list, int fd)
 	}
 	if (right_list == NULL)
 	{
-		right_list = (t_gnlist*)ft_memalloc(sizeof(t_gnlist));
+		right_list = (t_gnlist*)malloc(sizeof(t_gnlist));
 		right_list->content = ft_strnew(1);
 		right_list->content_size = fd;
 		ft_lstadd(list, right_list);
@@ -33,19 +33,23 @@ static t_gnlist		*fd_find(t_gnlist **list, int fd)
 	return (right_list);
 }
 
-static void free_main_lst(t_gnlist *list)
+static int			ft_find_chr_in(char *buffer)
 {
-	t_gnlist	*ptr;
+	int				i;
 
-	while (list != NULL)
-		list = list->prev;
-	while (list != NULL)
+	i = 0;
+	if (!buffer)
+		return (-1);
+	while (buffer[i] != '\0')
 	{
-		ptr = list;
-		list = list->next;
-		free(ptr->content);
-		free(ptr);
+		if (buffer[i] == '\n')
+		{
+			buffer[i] = '\0';
+			return (i);
+		}
+		i++;
 	}
+	return (-1);
 }
 
 static int			ft_readline(int fd, t_gnlist **list, char ***line)
@@ -74,7 +78,6 @@ static int			ft_readline(int fd, t_gnlist **list, char ***line)
 		ft_strdel(&(*list)->content);
 		return (1);
 	}
-	free_main_lst(*list);
 	return (0);
 }
 

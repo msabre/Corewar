@@ -6,7 +6,7 @@
 #    By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/14 18:00:46 by msabre            #+#    #+#              #
-#    Updated: 2020/04/17 19:25:28 by andrejskobe      ###   ########.fr        #
+#    Updated: 2020/04/23 10:15:52 by andrejskobe      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ ft_striteri.c ft_strmap.c ft_strmapi.c ft_strequ.c ft_strnequ.c ft_strsub.c ft_s
 ft_putnbr_fd.c mod_compair.c mod_minus.c mod_plus.c to_power.c size_int_mass.c integer_size.c ft_strndup.c ft_is_num.c free_doub_lvl_mass.c create_int_mass.c quick_sort.c ft_swap.c ft_chrfill.c cn_power.c ft_digitmass_cpy.c \
 word_len.c count_words.c count_row.c zero_doub_lvl_mass.c cpy_double_lvl_mass.c str_qsort.c ft_memswap.c is_num.c is_numvalue.c skip_word.c arraylist_func.c ft_memdup.c\
 
-DIR_O = temporary
+DIR_O = objects
 
 CFILES = $(LIBFT_C) $(PRINTF_C) $(GNL_C)
 
@@ -39,30 +39,31 @@ OFILES = $(CFILES:.c=.o)
 
 PATH_O = $(addprefix $(DIR_O)/,$(OFILES))
 
-all: $(NAME)
+all: $(DIR_O) $(NAME)
+
+$(DIR_O):
+	@mkdir -p $(DIR_O)
+	@echo "was created"
 
 $(NAME): $(PATH_O)
 	@ar rc $(NAME) $(PATH_O)
 	@ranlib $(NAME)
 
 $(DIR_O)/%.o: ./src/libft/%.c
-	@mkdir -p $(DIR_O)
-	@echo "COMPILING $< = $@"
-	$(CC) $(FLAGS) -I $(HEAD) -c $< -o $@;
+	@echo "compiling libft obj : " $<
+	@$(CC) $(FLAGS) -I $(HEAD) -c $< -o $@;
 
 $(DIR_O)/%.o: ./src/ft_printf/%.c
-	@mkdir -p $(DIR_O)
-	@echo "COMPILING $< = $@"
-	$(CC) $(FLAGS) -I $(HEAD) -c $< -o $@;
+	@echo "compiling libft obj : " $<
+	@$(CC) $(FLAGS) -I $(HEAD) -c $< -o $@;
 
 $(DIR_O)/%.o: ./src/get_next_line/%.c
-	@mkdir -p $(DIR_O)
-	@echo "COMPILING $< = $@"
+	@echo "compiling libft obj : "$<
 	@$(CC) $(FLAGS) -I $(HEAD) -c $< -o $@;
 
 clean:
-	@rm -f temporary/*.o
-	@rm -rf temporary
+	@rm -f $(DIR_O)/*.o
+	@rm -rf $(DIR_O)
 
 fclean: clean
 	@rm -f $(NAME)
