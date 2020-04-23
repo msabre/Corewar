@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   op.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
+/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:10:23 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/23 08:52:50 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/23 15:13:04 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/Users/andrejskobelev/c_files/Corewar/includes/corewar.h"
+#include "../../includes/corewar.h"
 
 t_op	op_tab[17] =
 {

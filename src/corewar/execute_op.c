@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute_op.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
+/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/04 11:41:40 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/23 08:52:50 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/23 15:21:27 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/Users/andrejskobelev/c_files/Corewar/includes/corewar.h"
+#include "../../includes/corewar.h"
 
 static int			calc_nargs(char *args, t_op *op, int n)
 {
@@ -64,7 +64,8 @@ static int			valid_arg(unsigned char *arena, t_card *card)
 	return (1);
 }
 
-static void			get_types(t_card *card, unsigned char read_byte)
+static void			get_types(t_card *card, unsigned char read_byte,
+					unsigned char *arg_types)
 {
 	int				shift;
 	int				i;
@@ -73,7 +74,7 @@ static void			get_types(t_card *card, unsigned char read_byte)
 	shift = 6;
 	while (++i < card->op->argc)
 	{
-		card->args[i] = arga_types[((read_byte >> shift) & 3) - 1];
+		card->args[i] = arg_types[((read_byte >> shift) & 3) - 1];
 		shift -= 2;
 	}
 }
@@ -88,7 +89,7 @@ void				check_args_and_exe_op(t_general *all, t_card *card)
 	{
 		card->steps += 1;
 		ft_bzero(card->args, 4);
-		get_types(card, read_byte);
+		get_types(card, read_byte, all->arg_types);
 		if (!valid_arg(all->arena, card))
 		{
 			card->steps += calc_nargs(card->args, card->op, card->op->argc);

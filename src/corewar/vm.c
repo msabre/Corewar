@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   vm.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
+/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:25:26 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/23 08:52:50 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/23 15:26:35 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/Users/andrejskobelev/c_files/Corewar/includes/corewar.h"
+#include "../../includes/corewar.h"
 
 void			del_content(t_general *all)
 {
@@ -65,18 +65,26 @@ void			battle(t_general *all)
 		all->last_live->num, all->last_live->name);
 }
 
+static void		standart_initial(t_general *all)
+{
+	all->arg_types[0] = T_REG;
+	all->arg_types[1] = T_DIR;
+	all->arg_types[2] = T_IND;
+	all->n_players = 0;
+	all->stop_cycle = 0;
+	all->pl_num = 0;
+	all->flag_v = 0;
+	all->show_key = 0;
+	all->cn_octets = 64;
+}
+
 int				main(int argc, char **argv)
 {
 	t_general all;
 
 	if (argc == 1)
 		print_help();
-	all.n_players = 0;
-	all.stop_cycle = 0;
-	all.pl_num = 0;
-	all.flag_v = 0;
-	all.show_key = 0;
-	all.cn_octets = 64;
+	standart_initial(&all);
 	ft_bzero(all.reserved_nums, sizeof(int) * 4);
 	read_player(argc, argv, &all);
 	prepare_game(&all);

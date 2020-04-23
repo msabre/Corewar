@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cursor.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
+/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 14:05:12 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/23 08:52:50 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/23 15:15:59 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/Users/andrejskobelev/c_files/Corewar/includes/corewar.h"
+#include "../../includes/corewar.h"
 
 int		cursor_move(t_card *card)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   prepair_game.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
+/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 10:19:24 by msabre            #+#    #+#             */
-/*   Updated: 2020/04/23 08:52:50 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/23 15:13:07 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/Users/andrejskobelev/c_files/Corewar/includes/corewar.h"
+#include "../../includes/corewar.h"
 
 void		get_op_links(t_general *all)
 {

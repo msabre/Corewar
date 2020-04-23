@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   arena_output.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
+/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/17 19:38:14 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/23 10:56:58 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/23 15:12:09 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/Users/andrejskobelev/c_files/Corewar/includes/corewar.h"
+#include "../../includes/corewar.h"
 
 static void	print_arena(unsigned char *arena, int octets)
 {

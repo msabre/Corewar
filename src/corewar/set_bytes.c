@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   set_bytes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
+/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 10:16:57 by msabre            #+#    #+#             */
-/*   Updated: 2020/04/23 08:58:34 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/23 15:13:09 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/Users/andrejskobelev/c_files/Corewar/includes/corewar.h"
+#include "../../includes/corewar.h"
 
 void				set_byte(unsigned char *arena, unsigned char byte, int num)
 {

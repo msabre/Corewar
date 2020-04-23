@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
+/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 16:19:28 by avenonat          #+#    #+#             */
-/*   Updated: 2020/04/23 08:57:40 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/23 21:07:05 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/Users/andrejskobelev/c_files/Corewar/includes/asm.h"
+#include "../../includes/asm.h"
 
 t_file		*init_struct(void)
 {

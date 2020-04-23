@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   choose_n_c.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
+/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/17 11:41:24 by almazg            #+#    #+#             */
-/*   Updated: 2020/04/23 08:57:40 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/23 21:07:05 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/Users/andrejskobelev/c_files/Corewar/includes/asm.h"
+#include "../../includes/asm.h"
 
 void	choose_n_c(char *line, t_file *ssl, char *n, char *c)
 {

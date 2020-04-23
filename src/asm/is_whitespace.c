@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   is_whitespace.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
+/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/24 11:22:10 by almazg            #+#    #+#             */
-/*   Updated: 2020/04/23 08:57:40 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/23 21:07:05 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/Users/andrejskobelev/c_files/Corewar/includes/asm.h"
+#include "../../includes/asm.h"
 
 int		is_whitespace(int c)
 {

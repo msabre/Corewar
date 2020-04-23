@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   label_search2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
+/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/03 10:32:39 by almazg            #+#    #+#             */
-/*   Updated: 2020/04/23 08:57:40 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/23 21:07:05 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/Users/andrejskobelev/c_files/Corewar/includes/asm.h"
+#include "../../includes/asm.h"
 
 void		label_search2(t_label **list, t_exec **com)
 {

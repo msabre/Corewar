@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   write_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrejskobelev <andrejskobelev@student.    +#+  +:+       +#+        */
+/*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 18:41:34 by avenonat          #+#    #+#             */
-/*   Updated: 2020/04/23 08:57:40 by andrejskobe      ###   ########.fr       */
+/*   Updated: 2020/04/23 21:07:05 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/Users/andrejskobelev/c_files/Corewar/includes/asm.h"
+#include "../../includes/asm.h"
 
 void	write_error(char *str)
 {
