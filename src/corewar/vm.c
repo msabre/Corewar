@@ -6,7 +6,7 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 14:25:26 by andrejskobe       #+#    #+#             */
-/*   Updated: 2020/04/23 15:26:35 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/24 11:41:19 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static void		standart_initial(t_general *all)
 	all->flag_v = 0;
 	all->show_key = 0;
 	all->cn_octets = 64;
+	ft_bzero(all->reserved_nums, sizeof(int) * 4);
 }
 
 int				main(int argc, char **argv)
@@ -85,7 +86,6 @@ int				main(int argc, char **argv)
 	if (argc == 1)
 		print_help();
 	standart_initial(&all);
-	ft_bzero(all.reserved_nums, sizeof(int) * 4);
 	read_player(argc, argv, &all);
 	prepare_game(&all);
 	battle(&all);

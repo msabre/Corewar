@@ -6,7 +6,7 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 15:49:39 by avenonat          #+#    #+#             */
-/*   Updated: 2020/04/23 22:11:29 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/24 12:04:22 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,11 @@ void			read_player(int argc, char **argv, t_general *all)
 			i += 2;
 		else if (is_cor_file(argv[i]))
 		{
-			if (all->n_players > 4)
-				print_help();
 			fd = open(argv[i], O_RDONLY);
 			valid_check(fd, (all->n_players)++, all);
 			close(fd);
+			if (all->n_players > 4)
+				write_error("Too many champions\n");
 			i++;
 		}
 		else
