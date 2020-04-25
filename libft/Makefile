@@ -6,11 +6,11 @@
 #    By: msabre <msabre@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/14 18:00:46 by msabre            #+#    #+#              #
-#    Updated: 2020/04/23 23:53:25 by msabre           ###   ########.fr        #
+#    Updated: 2020/04/25 11:53:00 by msabre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC = clang
+CC = gcc
 
 FLAGS = -Wall -Werror -Wextra -fPIC
 

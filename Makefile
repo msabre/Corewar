@@ -6,7 +6,7 @@
 #    By: msabre <msabre@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/07 17:34:41 by andrejskobe       #+#    #+#              #
-#    Updated: 2020/04/24 00:01:22 by msabre           ###   ########.fr        #
+#    Updated: 2020/04/25 11:52:44 by msabre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ COREWAR		=	corewar
 
 ASM			=	asm
 
-CFLAGS		=	-g -Wall -Wextra -Werror -fPIC
+CFLAGS		=	-Wall -Wextra -Werror -fPIC
 
 VM_FILES	=	check_cards.c	check.c		cursor.c		execute_op.c	\
 				get_arg_value.c	get_bytes.c	op.c			prepair_game.c	\

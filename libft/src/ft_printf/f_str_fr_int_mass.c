@@ -6,7 +6,7 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:17:57 by msabre            #+#    #+#             */
-/*   Updated: 2019/10/30 22:43:20 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/25 11:57:15 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ char			*str_fr_intmass(int *a, int size, t_list *l, int sign)
 	i = 0;
 	if (!a)
 		return (NULL);
-	size = (l->fhash && l->precision == 0) ? size++ : size;
+	if (l->fhash && l->precision == 0)
+		size++;
 	sign = (l->precision == 0) ? sign : 0;
 	if (!(str = (char*)malloc(sizeof(char) * (size + sign + 1))))
 		return (NULL);

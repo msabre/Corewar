@@ -6,7 +6,7 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 19:47:35 by msabre            #+#    #+#             */
-/*   Updated: 2020/02/23 13:44:05 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/25 11:55:55 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,10 @@
 static int			unknow_output(t_list *l)
 {
 	char			*out;
-	int				length;
 
 	if ((l->save - l->i) < 0)
 	{
 		out = "";
-		length = 0;
 		l->length--;
 		l->i = l->save;
 	}

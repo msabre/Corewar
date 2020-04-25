@@ -6,7 +6,7 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 20:26:44 by msabre            #+#    #+#             */
-/*   Updated: 2019/11/26 18:07:51 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/25 11:57:43 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ static int			get_binary(char **src, unsigned long a)
 static void			free_struct(t_num_parts **mant_exp)
 {
 	int				i;
-	int				j;
 
-	j = 0;
 	i = 0;
 	while (mant_exp[i] != NULL)
 	{

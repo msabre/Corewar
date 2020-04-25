@@ -6,7 +6,7 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:47:40 by msabre            #+#    #+#             */
-/*   Updated: 2019/11/26 17:43:47 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/25 11:55:24 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 char		*ft_strndup(const char *str, int start, int end)
 {
-	int		i;
 	int		length;
 	char	*ptr;
 
-	i = 0;
 	length = end - start;
 	ptr = (char*)malloc(sizeof(char) * (length + 2));
 	if (!ptr)
