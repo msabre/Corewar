@@ -6,7 +6,7 @@
 /*   By: msabre <msabre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 15:49:39 by avenonat          #+#    #+#             */
-/*   Updated: 2020/04/24 12:04:22 by msabre           ###   ########.fr       */
+/*   Updated: 2020/04/25 09:05:22 by msabre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,7 @@ void			read_player(int argc, char **argv, t_general *all)
 		else
 			print_help();
 	}
+	if (all->n_players < 1)
+		print_help();
 	assign_numbers(all);
 }
