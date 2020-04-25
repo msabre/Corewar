@@ -6,7 +6,7 @@
 #    By: msabre <msabre@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/07 17:34:41 by andrejskobe       #+#    #+#              #
-#    Updated: 2020/04/25 11:52:44 by msabre           ###   ########.fr        #
+#    Updated: 2020/04/25 12:19:25 by msabre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,9 +73,11 @@ COR_PATH_O	=	$(addprefix $(OBJECTS_DIR)/$(OBJ_COR_DIR)/, $(O_CORE))
 
 ASM_PATH_O	=	$(addprefix $(OBJECTS_DIR)/$(OBJ_ASM_DIR)/, $(O_ASM))
 
-LIB_DIR		=	libft/
+LIB_DIR		=	libft
 
-LIBFT		=	$(LIB_DIR)libft.a
+LIBFT		=	libft.a
+
+LIB_PATH	=	$(LIB_DIR)/$(LIBFT)
 
 .PHONY: all clean fclean re
 
@@ -86,13 +88,13 @@ $(LIBFT):
 	@echo "\\n\033[32;1m...libft compiled...\033[0m \\n"
 	@sleep 1
 
-$(COREWAR): $(COR_PATH_O)
-	@gcc $(CFLAGS) -o $(COREWAR) $(COR_PATH_O) $(LIBFT)
+$(COREWAR): $(LIBFT) $(OBJECTS_DIR) $(OBJ_COR_DIR) $(COR_PATH_O)
+	@gcc $(CFLAGS) -o $(COREWAR) $(COR_PATH_O) $(LIB_PATH)
 	@echo "\\n\033[32;1m...corewar compiled...\033[0m \\n"
 	@sleep 1
 
-$(ASM): $(ASM_PATH_O)
-	@gcc $(CFLAGS) -o $(ASM) $(ASM_PATH_O) $(LIBFT)
+$(ASM): $(LIBFT) $(OBJECTS_DIR) $(OBJ_ASM_DIR) $(ASM_PATH_O)
+	@gcc $(CFLAGS) -o $(ASM) $(ASM_PATH_O) $(LIB_PATH)
 	@echo "\\n\033[32;1m...asm compiled...\033[0m \\n"
 	@sleep 1
 
